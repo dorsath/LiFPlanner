@@ -4,7 +4,7 @@ require 'nokogiri'
 namespace :herbs do
   desc "fetch herbs from lifeisfeudal.gamepedia.com"
   task :fetch => :environment do
-    path = Rails.root.join("app", "assets", "herbs")
+    path = Rails.root.join("app", "assets", "images", "herbs")
     url = "http://lifeisfeudal.gamepedia.com/Category:Alchemy_herb_images"
     doc = Nokogiri::HTML(open(url))
     DatabaseCleaner.clean_with(:truncation, :only => %w[herbs])

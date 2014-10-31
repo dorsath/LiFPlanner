@@ -1,0 +1,12 @@
+%h1 Herbalism lists
+
+%ul
+- @herbalism_lists.each do |list|
+  %li=link_to list.server, herbalism_list_path(list)
+  
+
+=form_for HerbalismList.new do |f|
+  =f.text_field :server
+  =f.submit "Create"
+
+

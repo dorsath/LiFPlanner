@@ -1,0 +1,19 @@
+%h1== Herbalism List: #{@herbalism_list.server}
+
+%table
+  %tr
+    %th Herb
+    %th 
+    %th Effect 1
+    %th Effect 2
+    %th Effect 3
+  - @herbalism_list.herbalism_list_items.each do |item|
+    %tr
+      %td=item.herb.name
+      %td=image_tag "herbs/#{item.herb.img_path}"
+      %td=item.first_effect
+      %td=item.second_effect
+      %td=item.third_effect
+
+
+

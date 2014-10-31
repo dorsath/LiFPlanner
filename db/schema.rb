@@ -14,7 +14,8 @@
 ActiveRecord::Schema.define(version: 20141031184404) do
 
   create_table "herbalism_list_items", force: true do |t|
-    t.integer  "list_id"
+    t.integer  "herbalism_list_id"
+    t.integer  "herb_id"
     t.integer  "first_effect_id"
     t.integer  "second_effect_id"
     t.integer  "third_effect_id"
