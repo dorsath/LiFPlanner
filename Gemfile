@@ -33,6 +33,7 @@ gem 'angularjs-rails'
 gem "therubyracer"
 gem "less-rails"
 gem "twitter-bootstrap-rails"
+gem 'bootstrap-sass', '~> 3.0.3.0'
 
 
 

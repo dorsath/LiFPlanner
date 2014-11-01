@@ -1,12 +1,17 @@
 %h1 Herbalism lists
 
-%ul
-- @herbalism_lists.each do |list|
-  %li=link_to list.server, herbalism_list_path(list)
+%table
+  %tr
+    %th Name
+  - @herbalism_lists.each do |list|
+    %tr
+      %td=link_to list.server, herbalism_list_path(list)
   
 
-=form_for HerbalismList.new do |f|
-  =f.text_field :server
+=form_for HerbalismList.new, {html: {role: "form"}} do |f|
+  %h4 New list
+  .form-group
+    =f.text_field :server
   =f.submit "Create"
 
 

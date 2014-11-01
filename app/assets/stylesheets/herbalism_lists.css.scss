@@ -1,3 +1,35 @@
 // Place all the styles related to the herbalism_lists controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "bootstrap";
+
+#main {
+  @extend .container;
+  margin-top:50px;
+
+
+  #herbs_table {
+    @extend .table;
+  }
+
+  #new_herbalism_list {
+    @extend .form-inline;
+
+    .form-group {
+      height: 35px;
+    }
+    
+    input {
+      &[type="text"] {
+        @extend .form-control;
+      }
+
+      &[type="submit"] {
+        @extend .btn;
+        @extend .btn-default;
+      }
+
+    }
+  }
+}
