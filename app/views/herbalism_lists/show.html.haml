@@ -2,20 +2,25 @@
   %input(type="hidden" id="herbalism_list_id" value="#{@herbalism_list.id}")
   %h1== Herbalism List: #{@herbalism_list.server}
 
-  %table
+  Filter herbs per effect:
+ 
+  <select ng-options="effect as effect for effect in list.filtered_effects" ng-model="list.filtered_effect" ng-change="list.filter()"></select>
+ 
+
+  %table#herbs_table
     %tr
       %th Herb
       %th 
       %th Effect 1
       %th Effect 2
       %th Effect 3
-    %tr(ng-repeat="item in list.list.items")
+    %tr.herb_item(ng-repeat="item in list.list.items")
       %td
         %img(ng-src="/assets/herbs/{{item.herb.img_path}}")
       %td {{item.herb.name}}
-      %td(class="item_{{item.id}}_first" ng-click="list.edit_effect(item.id, 'first')") {{list.effects[item.first_effect_id]}}
-      %td(class="item_{{item.id}}_second" ng-click="list.edit_effect(item.id, 'second')") {{list.effects[item.second_effect_id]}}
-      %td(class="item_{{item.id}}_third" ng-click="list.edit_effect(item.id, 'third')") {{list.effects[item.third_effect_id]}}
+      %td.herb_effect(class="item_{{item.id}}_first" ng-click="list.edit_effect(item.id, 'first')") {{list.effects[item.first_effect_id]}}
+      %td.herb_effect(class="item_{{item.id}}_second" ng-click="list.edit_effect(item.id, 'second')") {{list.effects[item.second_effect_id]}}
+      %td.herb_effect(class="item_{{item.id}}_third" ng-click="list.edit_effect(item.id, 'third')") {{list.effects[item.third_effect_id]}}
 
 
 

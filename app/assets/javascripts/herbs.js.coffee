@@ -31,7 +31,9 @@ app.factory "HerbItem", ($resource) ->
   class List
     constructor: (list_id) ->
       @list_id = list_id
-      @effects = HerbList.effects()
+      @effects = HerbList.effects( =>
+        @filtered_effects = $.merge(["All"], @effects)
+      )
       @list = HerbList.get({id: list_id})
       @currently_editing = false
 
@@ -56,6 +58,20 @@ app.factory "HerbItem", ($resource) ->
       )
 
       @currently_editing = false
+
+    filter: =>
+      console.log("filtering: #{@filtered_effect}")
+      if @filtered_effect == "All"
+        $("#herbs_table .herb_item").show()
+      else
+        $.each($("#herbs_table .herb_item"), (key, value) =>
+          if $(value).find("td:contains(#{@filtered_effect})").length > 0
+            $(value).show()
+          else
+            $(value).hide()
+
+        )
+      return ""
       
       
       
