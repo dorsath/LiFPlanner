@@ -1,4 +1,11 @@
-app = angular.module("Herbs", ['ngSanitize',"ngResource"])
+app = angular.module('Herbs', ['ngSanitize',"ngResource"]).run(['$compile', '$rootScope', '$document', ($compile, $rootScope, $document) ->
+   return $document.on('page:load', ->
+      body = angular.element('body')
+      compiled = $compile(body.html())($rootScope)
+      return body.html(compiled)
+   )
+])
+
 
 app.factory "HerbList", ($resource) ->
   $resource("/herbalism_lists/:id.json", {id: '@id'},{
@@ -20,15 +27,12 @@ app.factory "HerbItem", ($resource) ->
 
 @HerbsCtrl = ($scope, $timeout, $http, HerbItem, HerbList) ->
   $scope.herbalism_list_id = $("#herbalism_list_id").val()
-  console.log($scope.herbalism_list_id)
 
   class List
     constructor: (list_id) ->
       @list_id = list_id
       @effects = HerbList.effects()
-      @list = HerbList.get({id: list_id}, =>
-        console.log(@list)
-      )
+      @list = HerbList.get({id: list_id})
       @currently_editing = false
 
     edit_effect: (item_id, n) =>
@@ -45,7 +49,6 @@ app.factory "HerbItem", ($resource) ->
 
     save_effect: =>
       td = $(".item_#{@currently_editing.id}_#{@n}")
-      console.log(td)
       value = td.find(":selected")[0].index
       @currently_editing["#{@n}_effect_id"] = value
       @currently_editing.$update( =>
