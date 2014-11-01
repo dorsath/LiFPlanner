@@ -1,0 +1,14 @@
+#town
+  %h4== Town: #{@town.name}
+
+  =render partial: "nav"
+
+  #townsmen
+    %table
+      %tr
+        %th Name
+        %th Rank
+      - @town.townsmen.each do |townsman|
+        %tr
+          %td=townsman.name
+          %td=townsman.named_rank

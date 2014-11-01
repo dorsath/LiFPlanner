@@ -1,0 +1,34 @@
+@import "bootstrap";
+
+#new_town {
+
+  .form-group {
+    width: 300px;
+  }
+
+  input {
+    &[type="text"] {
+      @extend .form-control;
+    }
+
+    &[type="submit"] {
+      @extend .btn;
+      @extend .btn-default;
+    }
+
+  }
+}
+
+
+#town {
+
+  #townsmen {
+    @extend .container;
+    margin-top: 5px;
+
+    table {
+      @extend .table;
+    }
+
+  }
+}

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141031184404) do
+ActiveRecord::Schema.define(version: 20141101171733) do
 
   create_table "herbalism_list_items", force: true do |t|
     t.integer  "herbalism_list_id"
@@ -33,6 +33,21 @@ ActiveRecord::Schema.define(version: 20141031184404) do
   create_table "herbs", force: true do |t|
     t.string   "name"
     t.string   "img_path"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "towns", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "townsmen", force: true do |t|
+    t.integer  "town_id"
+    t.integer  "user_id"
+    t.string   "name"
+    t.integer  "rank"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

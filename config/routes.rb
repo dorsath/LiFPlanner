@@ -8,5 +8,7 @@ Rails.application.routes.draw do
     resources :items, controller: "herbalism_list_items"
   end
 
+  resources :towns
+
   root to: "home#index"
 end

@@ -1,0 +1,21 @@
+%h4 Towns
+
+%table
+  %tr
+    %th Name
+  - @towns.each do |town|
+    %tr
+      %td=link_to town.name, town_path(town)
+  
+
+=form_for Town.new, {html: {role: "form"}} do |f|
+  %h4 New town
+  .form-group
+    =label_tag :town_name
+    =f.text_field :name
+  .form-group
+    =label_tag :character_name
+    =text_field_tag "town[character_name]"
+  =f.submit "Create"
+
+
