@@ -8,9 +8,17 @@
   @extend .container;
   margin-top:50px;
 
+  #herbs_list {
+    position: relative;
+    #herbs_table {
+      @extend .table;
+    }
 
-  #herbs_table {
-    @extend .table;
+    #herb_filter {
+      position:absolute;
+      top:0px;
+      right:0px;
+    }
   }
 
   #new_herbalism_list {

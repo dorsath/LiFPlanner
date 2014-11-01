@@ -2,9 +2,9 @@
   %input(type="hidden" id="herbalism_list_id" value="#{@herbalism_list.id}")
   %h3== Herbalism List: #{@herbalism_list.server}
 
-  Filter herbs per effect:
- 
-  <select ng-options="effect as effect for effect in list.filtered_effects" ng-model="list.filtered_effect" ng-change="list.filter()"></select>
+  #herb_filter
+    Filter herbs per effect:
+    <select ng-options="effect as effect for effect in list.filtered_effects" ng-model="list.filtered_effect" ng-change="list.filter()"></select>
  
 
   %table#herbs_table
