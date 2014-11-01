@@ -30,6 +30,10 @@ gem 'devise'
 gem 'nokogiri'
 gem 'database_cleaner'
 gem 'angularjs-rails'
+gem "therubyracer"
+gem "less-rails"
+gem "twitter-bootstrap-rails"
+
 
 
 # Use ActiveModel has_secure_password
