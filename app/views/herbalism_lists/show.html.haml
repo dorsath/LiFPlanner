@@ -1,19 +1,19 @@
-%h1== Herbalism List: #{@herbalism_list.server}
+#herbs_list(ng-controller="HerbsCtrl")
+  %input(type="hidden" id="herbalism_list_id" value="#{@herbalism_list.id}")
+  %h1== Herbalism List: #{@herbalism_list.server}
 
-%table
-  %tr
-    %th Herb
-    %th 
-    %th Effect 1
-    %th Effect 2
-    %th Effect 3
-  - @herbalism_list.herbalism_list_items.each do |item|
+  %table
     %tr
-      %td=item.herb.name
-      %td=image_tag "herbs/#{item.herb.img_path}"
-      %td=item.first_effect
-      %td=item.second_effect
-      %td=item.third_effect
+      %th Herb
+      %th 
+      %th Effect 1
+      %th Effect 2
+      %th Effect 3
+    %tr(ng-repeat="item in list.list.items")
+      %td
+        %img(ng-src="/assets/herbs/{{item.herb.img_path}}")
+      %td {{item.herb.name}}
+      %td(class="item_{{item.id}}_first" ng-click="list.edit_effect(item.id, 'first')") {{list.effects[item.first_effect_id]}}
 
 
 
