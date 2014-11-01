@@ -4,6 +4,13 @@
 
 @import "bootstrap";
 
+
+.navbar {
+  ul.nav {
+    margin-top: 5px;
+  }
+}
+
 #main {
   @extend .container;
   margin-top:50px;
