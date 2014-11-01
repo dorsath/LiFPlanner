@@ -33,8 +33,8 @@ app.factory "HerbItem", ($resource) ->
 
     edit_effect: (item_id, n) =>
       return if @currently_editing
-      td = $(".item_#{item_id}_first")
       @n = n
+      td = $(".item_#{item_id}_#{n}")
       @currently_editing = HerbItem.get({list_id: @list_id, id: item_id})
 
       effect_id = $.inArray(td.html(), @effects)
@@ -44,9 +44,10 @@ app.factory "HerbItem", ($resource) ->
       )
 
     save_effect: =>
-      td = $(".item_#{@currently_editing.id}_first")
+      td = $(".item_#{@currently_editing.id}_#{@n}")
+      console.log(td)
       value = td.find(":selected")[0].index
-      @currently_editing["first_effect_id"] = value
+      @currently_editing["#{@n}_effect_id"] = value
       @currently_editing.$update( =>
         td.html(@effects[value])
       )

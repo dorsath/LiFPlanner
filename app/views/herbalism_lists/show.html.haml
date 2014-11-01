@@ -14,6 +14,8 @@
         %img(ng-src="/assets/herbs/{{item.herb.img_path}}")
       %td {{item.herb.name}}
       %td(class="item_{{item.id}}_first" ng-click="list.edit_effect(item.id, 'first')") {{list.effects[item.first_effect_id]}}
+      %td(class="item_{{item.id}}_second" ng-click="list.edit_effect(item.id, 'second')") {{list.effects[item.second_effect_id]}}
+      %td(class="item_{{item.id}}_third" ng-click="list.edit_effect(item.id, 'third')") {{list.effects[item.third_effect_id]}}
 
 
 
