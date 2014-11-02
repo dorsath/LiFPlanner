@@ -34,6 +34,7 @@ gem "therubyracer"
 gem "less-rails"
 gem "twitter-bootstrap-rails"
 gem 'bootstrap-sass', '~> 3.0.3.0'
+gem "mysql2"
 
 gem 'capistrano', '~> 3.1.0'
 gem 'capistrano-bundler', '~> 1.1.2'
