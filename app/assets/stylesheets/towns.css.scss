@@ -20,6 +20,44 @@
 }
 
 
+
+#townslist {
+  position:relative;
+
+  table {
+    margin-top:20px;
+    @extend .table;
+  }
+
+  .new_town_button {
+    position:absolute;
+    top:0px;
+    right:0px;
+    @extend .btn-sm;
+    @extend .btn;
+    @extend .btn-primary;
+  }
+
+  #accept_invite {
+    @extend .form-inline;
+
+    input {
+      &[type="text"] {
+        @extend .form-control;
+        @extend .input-sm;
+        margin:0px;
+        width:200px;
+      }
+
+      &[type="submit"] {
+        @extend .btn-sm;
+        @extend .btn;
+        @extend .btn-primary;
+      }
+    }
+  }
+}
+
 #town {
 
   #townsmen {

@@ -1,12 +1,42 @@
-%h4 Towns
-=link_to "new town", new_town_path, {class: "btn btn-primary"}
+#townslist
+  %h4 Towns
+  =link_to "new town", new_town_path, {class: "new_town_button"} 
 
-- if @towns.empty?
-  %p You are not part of any town yet. Either create a new town or ask your town founder to invite you.
-- else
   %table
     %tr
       %th Name
-    - @towns.each do |town|
+      %th Rank
+      %th
+    - if @towns.empty?
+      %tr 
+        %td(colspan="5") You are not part of any town yet. Either create a new town or ask your town founder to invite you.
+    - else
+      - @towns.each do |town|
+        %tr
+          %td=link_to town.name, town_path(town)
+          %td=town.townsmen.find_by_user_id(current_user.id).named_rank
+
+    %tr
+      %th Invites
+      %th invited by
+    - if @pending_invites.any?
+      - @pending_invites.each do |invite|
+        %tr
+          %td=invite.town.name
+          %td=invite.invited_by.username
+          %td
+            =form_for Townsman.new, {url: accept_pending_invite_path(invite), html: {id: "accept_invite"}}  do |f|
+              =f.text_field :name, placeholder: "Character name"
+              =f.submit "join town"
+    - else
       %tr
-        %td=link_to town.name, town_path(town)
+        %td(colspan="5") You have no pending town invites
+            
+
+-#  $(document).ready(function () {
+-#    $(“#new_townsman”).submit(function(event){
+-#      value = $("#new_townsman").find('input[name="townsman[name]"]').val()
+-#      console.log(value);
+-#      return false;
+-#    });
+-#  });

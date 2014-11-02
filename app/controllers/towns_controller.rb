@@ -1,6 +1,7 @@
 class TownsController < ApplicationController
   def index
     @towns = current_user.towns
+    @pending_invites = PendingInvite.where(user: current_user)
   end
 
   def create

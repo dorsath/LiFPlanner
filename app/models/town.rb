@@ -7,6 +7,6 @@ class Town < ActiveRecord::Base
   end
 
   def founder?(user)
-    townsmen.find(user).named_rank == :founder
+    townsmen.find_by_user_id(user.id).named_rank == :founder
   end
 end

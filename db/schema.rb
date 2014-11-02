@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20141101233415) do
   create_table "pending_invites", force: true do |t|
     t.integer  "town_id"
     t.integer  "user_id"
+    t.integer  "invited_by_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
