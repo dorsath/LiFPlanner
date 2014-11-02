@@ -17,14 +17,16 @@
   - else
     %p 
       You have not added your herbalism list to the town.
-      You can select an existing one here
 
-      =form_for @my_townsman, url: town_herbalism_list_path(@town.id, @my_townsman.id) do |f|
+      =form_for @my_townsman, url: town_herbalism_list_path(@town.id, @my_townsman.id), html: {id: "add_herbalism_list"} do |f|
+        You can select an existing one here: 
         =f.select :herbalism_list_id, options_for_select(current_user.herbalism_lists.map { |f| [f.server, f.id]})
         =f.submit "Add"
       - current_user.herbalism_lists
 
       or click
+
+      =link_to "here", herbalism_lists_path(town_id: @town.id), method: :post
 
       to create a new one.
 

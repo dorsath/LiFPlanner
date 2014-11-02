@@ -21,7 +21,15 @@ class HerbalismListsController < ApplicationController
   end
 
   def create
-    list = HerbalismList.create(new_list_params).tap do |list|
+    if params[:town_id]
+      town = Town.find(params[:town_id])
+      list = HerbalismList.create(server: town.name, user: current_user)
+      town.townsmen.where(user_id: current_user.id).first.update_attribute(:herbalism_list_id, list.id)
+    else
+      list = HerbalismList.create(new_list_params)
+    end
+
+    list.tap do |list|
       Herb.all.each do |herb|
         list.herbalism_list_items.create(herb_id: herb.id)
       end

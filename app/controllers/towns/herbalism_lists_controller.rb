@@ -8,7 +8,7 @@ class Towns::HerbalismListsController < ApplicationController
 
   def show
     @herbalism_list = HerbalismList.find(params[:id])
-    @editable = false
+    @editable = (@herbalism_list.user == current_user)
 
     render "herbalism_lists/show"
   end

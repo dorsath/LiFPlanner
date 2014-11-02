@@ -64,6 +64,26 @@
     @extend .table;
   }
 
+  #add_herbalism_list {
+    @extend .form-inline;
+
+    input {
+      &[type="text"] {
+        @extend .form-control;
+        @extend .input-sm;
+        margin:0px;
+        width:200px;
+      }
+
+      &[type="submit"] {
+        @extend .btn-sm;
+        @extend .btn;
+        @extend .btn-primary;
+      }
+    }
+  }
+
+
 }
 
 #town {
