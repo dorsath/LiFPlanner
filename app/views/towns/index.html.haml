@@ -1,21 +1,12 @@
 %h4 Towns
+=link_to "new town", new_town_path, {class: "btn btn-primary"}
 
-%table
-  %tr
-    %th Name
-  - @towns.each do |town|
+- if @towns.empty?
+  You are not part of any town yet. Either create a new town or ask your town founder to invite you.
+- else
+  %table
     %tr
-      %td=link_to town.name, town_path(town)
-  
-
-=form_for Town.new, {html: {role: "form"}} do |f|
-  %h4 New town
-  .form-group
-    =label_tag :town_name
-    =f.text_field :name
-  .form-group
-    =label_tag :character_name
-    =text_field_tag "town[character_name]"
-  =f.submit "Create"
-
-
+      %th Name
+    - @towns.each do |town|
+      %tr
+        %td=link_to town.name, town_path(town)

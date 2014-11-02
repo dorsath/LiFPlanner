@@ -11,6 +11,9 @@ class TownsController < ApplicationController
     redirect_to town_path(town)
   end
 
+  def new
+  end
+
   def show
     @town = current_user.towns.find(params[:id])
   end

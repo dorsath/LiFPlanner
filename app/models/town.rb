@@ -5,4 +5,8 @@ class Town < ActiveRecord::Base
   def add_townsman(user, rank, name)
     townsmen.create(user: user, rank: Townsman::RANKS.index(rank), name: name)
   end
+
+  def founder?(user)
+    townsmen.find(user).named_rank == :founder
+  end
 end

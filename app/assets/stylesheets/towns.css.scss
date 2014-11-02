@@ -31,4 +31,21 @@
     }
 
   }
+
+  #new_townsman {
+    @extend .form-inline;
+
+    input {
+      &[type="text"] {
+        @extend .form-control;
+        margin:0px;
+        width:200px;
+      }
+
+      &[type="submit"] {
+        @extend .btn;
+        @extend .btn-primary;
+      }
+    }
+  }
 }

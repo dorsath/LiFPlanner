@@ -12,3 +12,9 @@
         %tr
           %td=townsman.name
           %td=townsman.named_rank
+
+  - if @town.founder?(current_user)
+    =form_for(@town.townsmen.new, url: town_pending_invite_path(town_id: @town)) do |f|
+      Invite your peasant:
+      =text_field_tag :email
+      =f.submit "invite"
