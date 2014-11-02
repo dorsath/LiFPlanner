@@ -26,3 +26,57 @@ app.factory "HerbItem", ['$resource',($resource) ->
   })]
 
 @HerbsCtrl = ($scope, $timeout, $http, HerbItem, HerbList) ->
+  $scope.herbalism_list_id = $("#herbalism_list_id").val()
+  HerbList.effects()
+  #
+  #  class List
+  #    constructor: (list_id) ->
+  #      @list_id = list_id
+  #      @effects = HerbList.effects( =>
+  #        @filtered_effects = $.merge(["All"], @effects)
+  #      )
+  #      @list = HerbList.get({id: list_id})
+  #      @currently_editing = false
+  #
+  #    edit_effect: (item_id, n) =>
+  #      return if @currently_editing
+  #      @n = n
+  #      td = $(".item_#{item_id}_#{n}")
+  #      @currently_editing = HerbItem.get({list_id: @list_id, id: item_id})
+  #
+  #      effect_id = $.inArray(td.html(), @effects)
+  #      $http.get("/herbalism_lists/#{@list_id}/items/#{item_id}/edit?herb_id=#{effect_id}").success( (data) =>
+  #        td.html(data)
+  #        td.find("select").blur(@save_effect)
+  #      )
+  #
+  #    save_effect: =>
+  #      td = $(".item_#{@currently_editing.id}_#{@n}")
+  #      value = td.find(":selected")[0].index
+  #      @currently_editing["#{@n}_effect_id"] = value
+  #      @currently_editing.$update( =>
+  #        td.html(@effects[value])
+  #      )
+  #
+  #      @currently_editing = false
+  #
+  #    filter: =>
+  #      console.log("filtering: #{@filtered_effect}")
+  #      if @filtered_effect == "All"
+  #        $("#herbs_table .herb_item").show()
+  #      else
+  #        $.each($("#herbs_table .herb_item"), (key, value) =>
+  #          if $(value).find("td:contains(#{@filtered_effect})").length > 0
+  #            $(value).show()
+  #          else
+  #            $(value).hide()
+  #
+  #        )
+  #      return ""
+  #      
+  #      
+  #      
+  #
+    
+  #$scope.list = new List($scope.herbalism_list_id)
+
