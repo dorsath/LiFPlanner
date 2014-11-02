@@ -16,9 +16,9 @@ ActiveRecord::Schema.define(version: 20141101233415) do
   create_table "herbalism_list_items", force: true do |t|
     t.integer  "herbalism_list_id"
     t.integer  "herb_id"
-    t.integer  "first_effect_id"
-    t.integer  "second_effect_id"
-    t.integer  "third_effect_id"
+    t.integer  "first_effect_id",   default: 0
+    t.integer  "second_effect_id",  default: 0
+    t.integer  "third_effect_id",   default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 20141101233415) do
   end
 
   create_table "users", force: true do |t|
+    t.string   "username",               default: "", null: false
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
@@ -76,5 +77,6 @@ ActiveRecord::Schema.define(version: 20141101233415) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["username"], name: "index_users_on_username", unique: true
 
 end
