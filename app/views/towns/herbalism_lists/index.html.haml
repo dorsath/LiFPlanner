@@ -2,16 +2,17 @@
   %h4== Herbalism lists for #{@town.name}
 
   =render partial: "towns/nav"
+  %br
 
   - if @townsmen_with_list.map(&:user).include?(current_user)
     %table
       %tr
         %th Name
-        %th # Flux
+        %th Herbalism list
       - @townsmen_with_list.each do |townsman|
         %tr
-          %td=link_to townsman.name, town_herbalism_list_path(@town.id, townsman.id)
-          %td Hello
+          %td=townsman.name
+          %td=link_to "Show list", town_herbalism_list_path(@town.id, townsman.id)
 
   - else
     %p 

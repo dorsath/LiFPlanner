@@ -58,6 +58,14 @@
   }
 }
 
+#town_herbalism_lists {
+
+  table {
+    @extend .table;
+  }
+
+}
+
 #town {
 
   #townsmen {

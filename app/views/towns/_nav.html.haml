@@ -1,7 +1,13 @@
 %ul.nav.nav-tabs(role="tablist")
-  %li.active(role="presentation")=link_to "Townsmen", town_path(@town.id)
-  %li(role="presentation")
-    %a Todolist (WiP)
-  %li(role="presentation")
-    %a City Planner (WiP)
-  %li(role="presentation")=link_to "Herbalism", town_herbalism_lists_path(@town)
+  %li.townsmen(role="presentation")=link_to "Townsmen", town_path(@town.id)
+  %li.herbalism(role="presentation")=link_to "Herbalism", town_herbalism_lists_path(@town)
+
+  -#%li.todolist(role="presentation")
+  -#  %a Todolist (WiP)
+  -#%li.city_planner(role="presentation")
+  -#  %a City Planner (WiP)
+
+:javascript
+  $(document).ready( function() {
+    $(".#{@active}").addClass("active");
+  });
