@@ -1,4 +1,5 @@
 #herbs_list(ng-controller="HerbsCtrl")
+  %input(type="hidden" id="editable" value="#{@editable}")
   %input(type="hidden" id="herbalism_list_id" value="#{@herbalism_list.id}")
   %h3== Herbalism List: #{@herbalism_list.server}
 

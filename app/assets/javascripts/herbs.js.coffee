@@ -38,7 +38,8 @@ app.factory "HerbItem", ['$resource',($resource) ->
       @currently_editing = false
 
     edit_effect: (item_id, n) =>
-      return if @currently_editing
+      return if @currently_editing 
+      return if @editable == "false"
       @n = n
       td = $(".item_#{item_id}_#{n}")
       @currently_editing = HerbItem.get({list_id: @list_id, id: item_id})
@@ -78,6 +79,8 @@ app.factory "HerbItem", ['$resource',($resource) ->
 
     
   $scope.list = new List($scope.herbalism_list_id)
+  $scope.list.editable = $("#editable").val()
+
 
 
 @HerbsCtrl.$inject = ['$scope', '$timeout', '$http', 'HerbItem', 'HerbList']

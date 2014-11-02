@@ -5,6 +5,7 @@ class HerbalismListsController < ApplicationController
 
   def show
     @herbalism_list = HerbalismList.find(params[:id])
+    @editable = true
 
     respond_to do |format|
       format.json do

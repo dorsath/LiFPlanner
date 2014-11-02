@@ -4,21 +4,26 @@
   =render partial: "towns/nav"
 
   - if @townsmen_with_list.map(&:user).include?(current_user)
+    %table
+      %tr
+        %th Name
+        %th # Flux
+      - @townsmen_with_list.each do |townsman|
+        %tr
+          %td=link_to townsman.name, town_herbalism_list_path(@town.id, townsman.id)
+          %td Hello
 
   - else
     %p 
       You have not added your herbalism list to the town.
       You can select an existing one here
 
-      =form_for @my_townsman, url: town_herbalism_list_path(town_id: @town.id, @my_townsman.id) do |f|
-        =f.select :herbalism_list, options_for_select(current_user.herbalism_lists.map { |f| [f.server, f.id]})
+      =form_for @my_townsman, url: town_herbalism_list_path(@town.id, @my_townsman.id) do |f|
+        =f.select :herbalism_list_id, options_for_select(current_user.herbalism_lists.map { |f| [f.server, f.id]})
         =f.submit "Add"
       - current_user.herbalism_lists
-      -#form
 
       or click
-
-      -#here
 
       to create a new one.
 
