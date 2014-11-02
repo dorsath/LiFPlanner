@@ -7,13 +7,13 @@ app = angular.module('Herbs', ['ngSanitize',"ngResource"]).run(['$compile', '$ro
 ])
 
 
-app.factory "HerbList", ($resource) ->
+app.factory "HerbList", ['$resource',($resource) ->
   $resource("/herbalism_lists/:id.json", {id: '@id'},{
     effects: { method: 'GET', url: "/herbalism_lists/effects.json", isArray: true}
-  })
+  })]
 
 
-app.factory "HerbItem", ($resource) ->
+app.factory "HerbItem", ['$resource',($resource) ->
   $resource("/herbalism_lists/:list_id/items/:id.json", {list_id: '@herbalism_list_id', id: '@id'},{
     update: { method:'PUT' },
     edit: { method: 'GET', url: "/herbalism_lists/:list_id/items/:id/edit?herb_id=:herb_id" }
@@ -23,7 +23,7 @@ app.factory "HerbItem", ($resource) ->
   #  push: {method: 'POST', url: "/documents/:documentId/push.json"},
   #  pages: {method: 'GET', url: "/documents/:documentId/pages.json", isArray: true}
   #  master: {method: 'GET',  url: "/documents/:documentId/master.json"},
-  })
+  })]
 
 @HerbsCtrl = ($scope, $timeout, $http, HerbItem, HerbList) ->
   $scope.herbalism_list_id = $("#herbalism_list_id").val()
