@@ -34,8 +34,6 @@ set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
-load 'deploy/assets'
-
 namespace :deploy do
 
   desc 'Restart application'
@@ -58,4 +56,13 @@ namespace :deploy do
     end
   end
 
+end
+
+before "deploy:symlink", "assets:precompile"
+
+namespace :assets do
+  desc "Compile assets"
+  task :precompile, :roles => :app do
+    run "cd #{release_path} && rake RAILS_ENV=#{rails_env} assets:precompile"
+  end
 end
