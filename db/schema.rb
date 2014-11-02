@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20141101233415) do
     t.integer  "user_id"
     t.string   "name"
     t.integer  "rank"
+    t.integer  "herbalism_list_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

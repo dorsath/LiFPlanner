@@ -6,4 +6,5 @@ class User < ActiveRecord::Base
 
   has_many :towns, through: :townsman
   has_many :townsman
+  has_many :herbalism_lists
 end

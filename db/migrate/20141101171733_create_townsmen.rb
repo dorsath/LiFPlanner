@@ -5,6 +5,7 @@ class CreateTownsmen < ActiveRecord::Migration
       t.integer :user_id
       t.string  :name
       t.integer :rank
+      t.integer :herbalism_list_id
 
       t.timestamps
     end

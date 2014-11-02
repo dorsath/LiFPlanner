@@ -1,6 +1,6 @@
 class HerbalismListsController < ApplicationController
   def index
-    @herbalism_lists = HerbalismList.all.where(user: current_user)
+    @herbalism_lists = HerbalismList.where(user: current_user).all
   end
 
   def show
