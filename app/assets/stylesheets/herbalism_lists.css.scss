@@ -15,6 +15,13 @@
   @extend .container;
   margin-top:50px;
 
+  #herbalism_lists {
+    table {
+      @extend .table;
+    }
+  }
+
+
   #herbs_list {
     position: relative;
     #herbs_table {

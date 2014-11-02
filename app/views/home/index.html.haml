@@ -1,11 +1,15 @@
 %h3 Life is Feudal Planner
 
-%p
-  Welcome to the Life is Feudal planner. 
-  =link_to "Sign in", new_user_session_path
-  or
-  =link_to "sign up", new_user_registration_path
-  and start planning your town!
+- unless user_signed_in?
+  %p
+    Welcome to the Life is Feudal planner. 
+    =link_to "Sign in", new_user_session_path
+    or
+    =link_to "sign up", new_user_registration_path
+    and start planning your town!
 
 %p
   This site allows you and your fellow townfolk to plan out your city and manage your herbs.
+
+%p
+  Currently work in progress...

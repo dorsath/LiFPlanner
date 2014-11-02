@@ -1,17 +1,18 @@
-%h1 Herbalism lists
+#herbalism_lists
+  %h1 Herbalism lists
 
-%table
-  %tr
-    %th Name
-  - @herbalism_lists.each do |list|
+  %table
     %tr
-      %td=link_to list.server, herbalism_list_path(list)
-  
+      %th Name
+    - @herbalism_lists.each do |list|
+      %tr
+        %td=link_to list.server, herbalism_list_path(list)
+    
 
-=form_for HerbalismList.new, {html: {role: "form"}} do |f|
-  %h4 New list
-  .form-group
-    =f.text_field :server
-  =f.submit "Create"
+  =form_for HerbalismList.new, {html: {role: "form"}} do |f|
+    %h4 New list
+    .form-group
+      =f.text_field :server
+    =f.submit "Create"
 
 
