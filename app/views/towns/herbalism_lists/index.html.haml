@@ -4,17 +4,16 @@
   =render partial: "towns/nav"
   %br
 
-  - if @townsmen_with_list.map(&:user).include?(current_user)
-    %table
+  %table
+    %tr
+      %th Name
+      %th Herbalism list
+    - @townsmen_with_list.each do |townsman|
       %tr
-        %th Name
-        %th Herbalism list
-      - @townsmen_with_list.each do |townsman|
-        %tr
-          %td=townsman.name
-          %td=link_to "Show list", town_herbalism_list_path(@town.id, townsman.id)
+        %td=townsman.name
+        %td=link_to "Show list", town_herbalism_list_path(@town.id, townsman.id)
 
-  - else
+  - if @townsmen_with_list.map(&:user).exclude?(current_user)
     %p 
       You have not added your herbalism list to the town.
 
