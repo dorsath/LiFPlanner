@@ -20,6 +20,11 @@
       %td {{item.title}}
       %td {{item.created_by.name}}
 
+    %tr(ng-show="!list.items.length")
+      %td(colspan="3") You have no todo's yet. Create one in the form below
+
+  
+
   %form#new_todo(ng-submit="list.new_todo()")
     %input(type="text" ng-model="list.new_todo_title" placeholder="Type a todo and press enter")
     %input(type="submit" value="add")
