@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   resources :towns do
     resources :pending_invites
     resources :herbalism_lists, controller: "towns/herbalism_lists"
+    resource :todo_list, controller: "towns/todo_lists" do
+      resources :items, controller: "towns/todo_items"
+    end
   end
 
   post '/pending_invites/:id/accept', to: 'pending_invites#accept', as: 'accept_pending_invite'

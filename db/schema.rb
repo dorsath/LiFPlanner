@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141101233415) do
+ActiveRecord::Schema.define(version: 20141102221833) do
 
   create_table "herbalism_list_items", force: true do |t|
     t.integer  "herbalism_list_id"
@@ -41,6 +41,24 @@ ActiveRecord::Schema.define(version: 20141101233415) do
     t.integer  "town_id"
     t.integer  "user_id"
     t.integer  "invited_by_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "todo_items", force: true do |t|
+    t.integer  "todo_list_id"
+    t.string   "title"
+    t.text     "note"
+    t.integer  "assigned_to_id"
+    t.integer  "created_by_id"
+    t.integer  "order"
+    t.boolean  "completed",      default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "todo_lists", force: true do |t|
+    t.integer  "town_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

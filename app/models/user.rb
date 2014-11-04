@@ -4,7 +4,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :towns, through: :townsman
-  has_many :townsman
+  has_many :towns, through: :townsmen
+  has_many :townsmen
   has_many :herbalism_lists
+
 end
