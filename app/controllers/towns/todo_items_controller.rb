@@ -1,5 +1,6 @@
 class Towns::TodoItemsController < ApplicationController
   def index
+    @javascript = "todolist"
     @town = Town.find(params[:town_id])
     @todo_list = @town.todo_list
     render json: @todo_list.items.as_json(include: :created_by)

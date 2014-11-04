@@ -1,10 +1,4 @@
-app = angular.module('Herbs', ['ngSanitize',"ngResource"]).run(['$compile', '$rootScope', '$document', ($compile, $rootScope, $document) ->
-   return $document.on('page:load', ->
-      body = angular.element('body')
-      compiled = $compile(body.html())($rootScope)
-      return body.html(compiled)
-   )
-])
+app = angular.module('Herbs')
 
 app.factory "TodoList", ['$resource',($resource) ->
   $resource("/towns/:town_id/todo_list.json", {id: '@id'},{

@@ -4,6 +4,7 @@ class HerbalismListsController < ApplicationController
   end
 
   def show
+    @javascript = "herbs"
     @herbalism_list = HerbalismList.find(params[:id])
     @editable = true
 

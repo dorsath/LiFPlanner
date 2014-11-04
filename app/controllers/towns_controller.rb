@@ -16,6 +16,7 @@ class TownsController < ApplicationController
   end
 
   def show
+    @javascript = "towns"
     @town = current_user.towns.find(params[:id])
     @active = "townsmen"
   end
