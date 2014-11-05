@@ -14,10 +14,10 @@
       %th Done?
       %th Title
       %th Created by
-    %tr(ng-repeat="item in list.items")
+    %tr(ng-repeat="item in list.items" ng-class="list.row_class(item)")
       %td
         %input(type="checkbox" ng-model="item.completed" ng-change="list.complete(item)")
-      %td {{item.title}}
+      %td.title(ng-click="list.edit(item, 'title')") {{item.title}}
       %td {{item.created_by.name}}
 
     %tr(ng-show="!list.items.length")

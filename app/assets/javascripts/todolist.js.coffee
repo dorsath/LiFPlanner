@@ -21,6 +21,7 @@ app.factory "TodoItem", ['$resource',($resource) ->
       @items = TodoItem.items(town_id: town_id)
       @status = ["created", "started", "completed"]
       @poll()
+      @editing = false
 
 
     new_todo: =>
@@ -50,6 +51,7 @@ app.factory "TodoItem", ['$resource',($resource) ->
         )[0]
 
         item.$get({town_id: @town_id})
+        $("#todo_list_table .item_#{item.id}").show()
       )
 
     add: (ids) =>
@@ -63,11 +65,31 @@ app.factory "TodoItem", ['$resource',($resource) ->
           )
       )
 
-    #start: (item_id) =>
-      #  item = TodoItem.get(town_id: @town_id, id: item_id, =>
-      #    item.status_id = 1
-      #    item.$save({town_id: @town_id})
-      #  )
+    edit: (item, field) =>
+      return if @editing
+
+      @editing = [item, field]
+      console.log(item)
+      console.log(field)
+      td = $("#todo_list_table .item_#{item.id} .#{field}")
+      td.html('<input type="text" value="'+td.html()+'"/>')
+      $(td).find("input").blur(@save_change)
+      
+      return ""
+
+    save_change: =>
+      item = @editing[0]
+      field = @editing[1]
+      td = $("#todo_list_table .item_#{item.id} .#{field}")
+      value = td.find("input").val()
+      td.html(value)
+      item[field] = value
+      item.$save(town_id: @town_id)
+
+    row_class: (item) ->
+      "item_#{item.id}"
+
+
 
     complete: (item) =>
       item.$save({town_id: @town_id})
