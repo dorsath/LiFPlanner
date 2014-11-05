@@ -69,11 +69,20 @@ app.factory "TodoItem", ['$resource',($resource) ->
       return if @editing
 
       @editing = [item, field]
-      console.log(item)
-      console.log(field)
       td = $("#todo_list_table .item_#{item.id} .#{field}")
       td.html('<input type="text" value="'+td.html()+'"/>')
-      $(td).find("input").blur(@save_change)
+      
+      input = $(td).find("input")
+
+      input.focus()
+      input.blur(@save_change)
+      input.keyup( (e) =>
+        if (e.which == 13)
+          @save_change()
+        if (e.which == 27)
+          @cancel_edit()
+      )
+
       
       return ""
 
@@ -85,6 +94,14 @@ app.factory "TodoItem", ['$resource',($resource) ->
       td.html(value)
       item[field] = value
       item.$save(town_id: @town_id)
+      @editing = false
+
+    cancel_edit: =>
+      item = @editing[0]
+      field = @editing[1]
+      td = $("#todo_list_table .item_#{item.id} .#{field}")
+      td.html(item[field])
+      @editing = false
 
     row_class: (item) ->
       "item_#{item.id}"
