@@ -17,6 +17,8 @@ Rails.application.routes.draw do
         get :changed
       end
     end
+
+    resource :planner, controller: "towns/planner"
   end
 
   post '/pending_invites/:id/accept', to: 'pending_invites#accept', as: 'accept_pending_invite'

@@ -1,0 +1,10 @@
+#town_planner(ng-controller="PlannerCtrl")
+  %input(type="hidden" id="town_id" value="#{@town.id}")
+
+  %h4 Town Planner
+
+  =render partial: "towns/nav"
+  %br
+
+  %canvas#planner
+
