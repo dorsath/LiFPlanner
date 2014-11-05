@@ -2,6 +2,7 @@ app = angular.module('Herbs')
 
 app.factory "TodoList", ['$resource',($resource) ->
   $resource("/towns/:town_id/todo_list.json", {id: '@id'},{
+    changed: { method: 'GET', url: "/towns/:id/todo_list/changed.json"}
   })]
 
 app.factory "TodoItem", ['$resource',($resource) ->
@@ -19,6 +20,7 @@ app.factory "TodoItem", ['$resource',($resource) ->
       @town_id = town_id
       @items = TodoItem.items(town_id: town_id)
       @status = ["created", "started", "completed"]
+      @poll()
 
 
     new_todo: =>
@@ -27,7 +29,39 @@ app.factory "TodoItem", ['$resource',($resource) ->
         @items.push(new_item)
         @new_todo_title = ""
       )
-      console.log(new_item)
+
+
+    poll: =>
+      $timeout( ->
+        @list = $scope.list
+        changed = TodoList.changed(id: @list.town_id, =>
+          if changed.updated.length > 0
+            @list.update(changed.updated)
+          if changed.created.length > 0
+            @list.add(changed.created)
+        )
+        $scope.list.poll()
+      , 3000)
+
+    update: (ids) =>
+      $.each(ids, (key, id) =>
+        item = $.grep(@items, (e) => 
+          return e.id == id
+        )[0]
+
+        item.$get({town_id: @town_id})
+      )
+
+    add: (ids) =>
+      $.each(ids, (key, id) =>
+        items_found = $.grep(@items, (e) => 
+          return e.id == id
+        )
+        if items_found.length == 0
+          item = TodoItem.get({town_id: @town_id, id: id}, =>
+            @items.push(item)
+          )
+      )
 
     #start: (item_id) =>
       #  item = TodoItem.get(town_id: @town_id, id: item_id, =>

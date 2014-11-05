@@ -13,6 +13,9 @@ Rails.application.routes.draw do
     resources :herbalism_lists, controller: "towns/herbalism_lists"
     resource :todo_list, controller: "towns/todo_lists" do
       resources :items, controller: "towns/todo_items"
+      collection do
+        get :changed
+      end
     end
   end
 
