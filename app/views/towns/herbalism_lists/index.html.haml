@@ -11,7 +11,7 @@
     - @townsmen_with_list.each do |townsman|
       %tr
         %td=townsman.name
-        %td=link_to "Show list", town_herbalism_list_path(@town.id, townsman.id)
+        %td=link_to "Show list", town_herbalism_list_path(@town.id, townsman.herbalism_list_id)
 
   - if @townsmen_with_list.map(&:user).exclude?(current_user)
     %p 

@@ -17,7 +17,7 @@ class Towns::HerbalismListsController < ApplicationController
   def update
     townsman = Townsman.find(params[:id])
     townsman.update_attribute(:herbalism_list_id, params[:townsman][:herbalism_list_id])
-    redirect_to town_herbalism_lists_path(townsman)
+    redirect_to town_herbalism_lists_path(townsman.town_id)
   end
 end
 
