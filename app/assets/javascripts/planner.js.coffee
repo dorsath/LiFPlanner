@@ -49,8 +49,11 @@ app.factory "Building", ['$resource',($resource) ->
       @context.fillStyle = "white"
       @context.fillRect(0, 0, @resolution[0], @resolution[1])
 
-      for x in [-10..10]
-        for y in [-10..10]
+      top_left = @coords_to_tile([0,0])
+      bottom_right = @coords_to_tile(@resolution)
+
+      for x in [top_left[0]..bottom_right[0]]
+        for y in [top_left[1]..bottom_right[1]]
           @draw_tile(x, y)
     
       if @buildingFactory
