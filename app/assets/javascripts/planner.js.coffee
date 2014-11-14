@@ -4,7 +4,8 @@ app.factory "Building", ['$resource',($resource) ->
   $resource("/towns/:town_id/planner/buildings/:id.json", {town_id: '@town_id', id: '@id'},{
     new: { method: 'GET', url: "/towns/:town_id/planner/buildings/new.json"},
     changed: { method: 'GET', url: "/towns/:town_id/planner/changed.json"},
-    save: { method: 'PUT', url: "/towns/:town_id/planner/buildings/:id.json"}
+    save: { method: 'POST', url: "/towns/:town_id/planner/buildings.json"},
+    update: { method: 'PUT', url: "/towns/:town_id/planner/buildings/:id.json"}
   })]
 
 
@@ -199,11 +200,13 @@ app.factory "Building", ['$resource',($resource) ->
       )
 
     save: =>
-      @building.$save(town_id: $scope.town_id, =>
-        if @mode == "create"
+      if @mode == "create"
+        @building.$save(town_id: $scope.town_id, =>
           $scope.planner.buildings.push(@building)
-        $scope.planner.buildingFactory = false
-      )
+        )
+      else
+        @building.$update(town_id: $scope.town_id)
+      $scope.planner.buildingFactory = false
 
     cancel: =>
       $scope.planner.buildingFactory = false
