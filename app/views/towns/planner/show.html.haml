@@ -19,6 +19,11 @@
     
   %canvas#planner
 
+  #tooltip(ng-show="planner.tooltip")
+    .title Title: {{ planner.tooltip.title }}
+    .note Note: {{ planner.tooltip.note }}
+    .name Created by: {{ planner.tooltip.created_by.name }}
+
   #form_container
     %form#buildingFactory(role="form" ng-show="planner.buildingFactory.building")
       %h4 New building

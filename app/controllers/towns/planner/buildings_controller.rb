@@ -8,7 +8,7 @@ class Towns::Planner::BuildingsController < ApplicationController
 
   def index
     @town = Town.find(params[:town_id])
-    render json: @town.buildings.all.to_json(include: :created_by)
+    render json: @town.buildings.all.to_json(include: :created_by, methods: :center)
   end
 
   def create
@@ -20,13 +20,13 @@ class Towns::Planner::BuildingsController < ApplicationController
     @building.area = params[:area]
     @building.save
 
-    render json: @building
+    render json: @building.to_json(include: :created_by, methods: :center)
   end
 
   def show
     @town = Town.find(params[:town_id])
     @building = @town.buildings.find(params[:id])
-    render json: @building.to_json(include: :created_by)
+    render json: @building.to_json(include: :created_by, methods: :center)
   end
 
 

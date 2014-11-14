@@ -23,7 +23,7 @@ app.factory "Building", ['$resource',($resource) ->
       @camera = [0,0]
 
       @mode = "camera"
-      @modes = ["camera", "draw"]
+      @modes = ["camera", "build"]
 
       @canvas.mousedown(@mouse_down_event)
       @canvas.mouseup(@mouse_up_event)
@@ -75,10 +75,18 @@ app.factory "Building", ['$resource',($resource) ->
           @context.fillRect(coords[0], coords[1], @tile_size(), @tile_size())
 
       for building in @buildings
+        
         for tile in building.area
           coords = @tile_to_coords(tile)
           @context.fillStyle = "green"
           @context.fillRect(coords[0], coords[1], @tile_size(), @tile_size())
+
+        text_coords = @tile_to_coords(building.center)
+        @context.textAlign = "center"
+        @context.font = "17px Helvetica Neue"
+        @context.textBaseline = "top"
+        @context.fillStyle = "white"
+        @context.fillText(building.title, text_coords[0], text_coords[1])
 
       $timeout( =>
         @draw()
@@ -93,7 +101,7 @@ app.factory "Building", ['$resource',($resource) ->
     mouse_down_event: (e) =>
       @mouse_down = true
       
-      if @mode == 'draw'
+      if @mode == 'build'
         coords = @mouse_coords(e)
 
         tile = @coords_to_tile(coords)
@@ -124,8 +132,8 @@ app.factory "Building", ['$resource',($resource) ->
 
 
     mousemove_event: (e) =>
+      mouse_coords = @mouse_coords(e)
       if @mouse_down
-        mouse_coords = @mouse_coords(e)
         if @mouse_move == false
           @mouse_move = mouse_coords
 
@@ -137,7 +145,26 @@ app.factory "Building", ['$resource',($resource) ->
         if @mouse_action
           @mouse_action.mousemove_event(@coords_to_tile(@mouse_coords(e)))
 
+      
         @mouse_move = mouse_coords
+      else
+        current_tile = @coords_to_tile(mouse_coords)
+
+        found = false
+        $.each(@buildings, (key, building) =>
+          tile_found = $.grep(building.area, (tile) => 
+            return(tile[0] == current_tile[0] && tile[1] == current_tile[1])
+          )
+          if tile_found.length > 0
+            found = true
+            @tooltip = building
+
+        )
+        if found == false
+          @tooltip = false
+
+
+
 
     getNumericStyleProperty: (style, prop) ->
       return parseInt(style.getPropertyValue(prop),10)
@@ -181,6 +208,7 @@ app.factory "Building", ['$resource',($resource) ->
             @area.push([x,y])
 
       @current_tile = tile
+
 
     new_form: =>
       @building = Building.new(town_id: $scope.town_id, =>
