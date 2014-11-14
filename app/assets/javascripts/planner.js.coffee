@@ -15,10 +15,7 @@ app.factory "Building", ['$resource',($resource) ->
     constructor: (town_id) ->
       @town_id = town_id
       @canvas = $("#town_planner").find("canvas#planner")
-      @resolution = [@canvas[0].offsetWidth, window.innerHeight - @canvas[0].offsetTop - 10]
-      @canvas.mousemove(@mousemove_event)
-      @canvas[0].width  = @resolution[0]
-      @canvas[0].height = @resolution[1]
+      @resizeCanvas()
 
       @mouse_down = false
       @mouse_move = false
@@ -29,6 +26,9 @@ app.factory "Building", ['$resource',($resource) ->
 
       @canvas.mousedown(@mouse_down_event)
       @canvas.mouseup(@mouse_up_event)
+
+      window.onresize = =>
+        @resizeCanvas()
 
       @tile_size_0 = 10
       @zoom = 2.1
@@ -43,6 +43,12 @@ app.factory "Building", ['$resource',($resource) ->
 
       @syncing = new Syncing()
       @syncing.poll()
+
+    resizeCanvas: =>
+      @resolution = [@canvas[0].offsetWidth, window.innerHeight - @canvas[0].offsetTop - 10]
+      @canvas.mousemove(@mousemove_event)
+      @canvas[0].width  = @resolution[0]
+      @canvas[0].height = @resolution[1]
 
 
     center: =>
