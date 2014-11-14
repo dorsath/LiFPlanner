@@ -6,5 +6,25 @@
   =render partial: "towns/nav"
   %br
 
+  %ul#planner_menu
+    %li
+      %button(ng-click="planner.set_mode('camera')") Camera
+    %li
+      %button(ng-click="planner.set_mode('draw')") Draw Town
+
+    
   %canvas#planner
+
+  %form#buildingFactory(role="form" ng-show="planner.buildingFactory.building")
+    %h4 New building
+    .form-group
+      %label(for="factoryTitle") Title:
+      %input(ng-model="planner.buildingFactory.building.title" id="factoryTitle")
+
+    .form-group
+      %label(for="factoryNote") Note:
+      %textarea(ng-model="planner.buildingFactory.building.note" id="factoryNote")
+
+    %button.submit(ng-click="planner.buildingFactory.save()") Save
+    %button.cancel(ng-click="planner.buildingFactory.cancel()") Cancel
 

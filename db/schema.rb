@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141102221833) do
+ActiveRecord::Schema.define(version: 20141114090314) do
+
+  create_table "buildings", force: true do |t|
+    t.integer  "town_id"
+    t.integer  "created_by_id"
+    t.text     "note"
+    t.string   "title"
+    t.text     "area"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "herbalism_list_items", force: true do |t|
     t.integer  "herbalism_list_id"

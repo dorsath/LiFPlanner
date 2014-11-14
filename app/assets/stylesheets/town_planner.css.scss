@@ -4,4 +4,15 @@
     width: 640px;
     height: 320px;
   }
+
+  #buildingFactory {
+    position:absolute;
+    top:200px;
+    right:50px;
+
+    button {
+      @extend .btn;
+      @extend .btn-default;
+    }
+  }
 }

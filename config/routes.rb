@@ -18,7 +18,11 @@ Rails.application.routes.draw do
       end
     end
 
-    resource :planner, controller: "towns/planner"
+    resource :planner, controller: "towns/planner" do
+      resources :buildings, controller: "towns/planner/buildings"
+    end
+
+
   end
 
   post '/pending_invites/:id/accept', to: 'pending_invites#accept', as: 'accept_pending_invite'
