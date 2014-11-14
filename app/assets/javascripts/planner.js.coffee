@@ -12,7 +12,7 @@ app.factory "Building", ['$resource',($resource) ->
     constructor: (town_id) ->
       @town_id = town_id
       @canvas = $("#town_planner").find("canvas#planner")
-      @resolution = [@canvas[0].offsetWidth, @canvas[0].offsetHeight]
+      @resolution = [@canvas[0].offsetWidth, window.innerHeight - @canvas[0].offsetTop - 10]
       @canvas.mousemove(@mousemove_event)
       @canvas[0].width  = @resolution[0]
       @canvas[0].height = @resolution[1]
@@ -28,7 +28,7 @@ app.factory "Building", ['$resource',($resource) ->
       @canvas.mouseup(@mouse_up_event)
 
       @tile_size_0 = 10
-      @zoom = 1
+      @zoom = 2.1
       @buildings = Building.query(town_id: @town_id)
       @buildingFactory = false
 
@@ -40,6 +40,10 @@ app.factory "Building", ['$resource',($resource) ->
 
     center: =>
       @camera = [0,0]
+
+    zoomIn: (amount) =>
+      if amount + @zoom >= 1
+        @zoom += amount
 
     tile_size: =>
       @zoom * @tile_size_0
