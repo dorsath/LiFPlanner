@@ -23,6 +23,13 @@ class Towns::Planner::BuildingsController < ApplicationController
     render json: @building
   end
 
+  def show
+    @town = Town.find(params[:town_id])
+    @building = @town.buildings.find(params[:id])
+    render json: @building.to_json(include: :created_by)
+  end
+
+
   private
 
   def new_building_param

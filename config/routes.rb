@@ -20,6 +20,9 @@ Rails.application.routes.draw do
 
     resource :planner, controller: "towns/planner" do
       resources :buildings, controller: "towns/planner/buildings"
+      collection do
+        get :changed
+      end
     end
 
 

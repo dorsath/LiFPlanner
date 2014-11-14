@@ -3,6 +3,7 @@ app = angular.module('Herbs')
 app.factory "Building", ['$resource',($resource) ->
   $resource("/towns/:town_id/planner/buildings/:id.json", {town_id: '@town_id', id: '@id'},{
     new: { method: 'GET', url: "/towns/:town_id/planner/buildings/new.json"}
+    changed: { method: 'GET', url: "/towns/:town_id/planner/changed.json"}
   })]
 
 
@@ -36,6 +37,9 @@ app.factory "Building", ['$resource',($resource) ->
       @context = @canvas[0].getContext('2d')
       @context.lineWidth = 1
       @draw()
+
+      @syncing = new Syncing()
+      @syncing.poll()
 
 
     center: =>
@@ -191,6 +195,45 @@ app.factory "Building", ['$resource',($resource) ->
 
     cancel: =>
       $scope.planner.buildingFactory = false
+
+  class Syncing
+    constructor: ->
+      @planner = $scope.planner
+
+    poll: =>
+      $timeout( ->
+        @planner = $scope.planner
+        changed = Building.changed(town_id: @planner.town_id, =>
+          if changed.updated.length > 0
+            @planner.syncing.update(changed.updated)
+          if changed.created.length > 0
+            @planner.syncing.add(changed.created)
+        )
+        @planner.syncing.poll()
+      , 3000)
+
+    update: (ids) =>
+      @planner = $scope.planner
+      $.each(ids, (key, id) =>
+        item = $.grep(@planner.buildings, (e) => 
+          return e.id == id
+        )[0]
+
+        item.$get({town_id: @town_id})
+      )
+
+    add: (ids) =>
+      @planner = $scope.planner
+      $.each(ids, (key, id) =>
+        items_found = $.grep(@planner.buildings, (e) => 
+          return e.id == id
+        )
+        if items_found.length == 0
+          item = Building.get({town_id: @planner.town_id, id: id}, =>
+            @planner.buildings.push(item)
+          )
+      )
+
 
 
 
