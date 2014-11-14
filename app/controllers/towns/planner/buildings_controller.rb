@@ -32,6 +32,15 @@ class Towns::Planner::BuildingsController < ApplicationController
     render json: @building.to_json(include: :created_by, methods: :center)
   end
 
+  def destroy
+    @town = Town.find(params[:town_id])
+    my_townsman = @town.townsmen.where(user: current_user).first
+    @building = @town.buildings.find(params[:id])
+    @building.delete
+
+    render json: true
+  end
+
   def show
     @town = Town.find(params[:town_id])
     @building = @town.buildings.find(params[:id])

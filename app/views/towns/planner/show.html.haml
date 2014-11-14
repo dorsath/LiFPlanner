@@ -37,4 +37,5 @@
 
       %button.submit(ng-click="planner.buildingFactory.save()") Save
       %button.cancel(ng-click="planner.buildingFactory.cancel()") Cancel
+      %button.delete(ng-click="planner.buildingFactory.delete()" ng-show="planner.buildingFactory.mode == 'edit'") Delete
 

@@ -208,6 +208,14 @@ app.factory "Building", ['$resource',($resource) ->
     cancel: =>
       $scope.planner.buildingFactory = false
 
+    delete: =>
+      @building.$delete(town_id: $scope.town_id, =>
+        index = $scope.planner.buildings.indexOf(@building)
+        $scope.planner.buildings.splice(index, 1)
+        $scope.planner.buildingFactory = false
+      )
+
+
   class Syncing
     constructor: ->
       @planner = $scope.planner
