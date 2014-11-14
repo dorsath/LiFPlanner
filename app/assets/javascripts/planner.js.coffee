@@ -12,8 +12,10 @@ app.factory "Building", ['$resource',($resource) ->
     constructor: (town_id) ->
       @town_id = town_id
       @canvas = $("#town_planner").find("canvas#planner")
-      @resolution = [@canvas.prop("width"), @canvas.prop("height")]
+      @resolution = [@canvas[0].offsetWidth, @canvas[0].offsetHeight]
       @canvas.mousemove(@mousemove_event)
+      @canvas[0].width  = @resolution[0]
+      @canvas[0].height = @resolution[1]
 
       @mouse_down = false
       @mouse_move = false
@@ -25,15 +27,16 @@ app.factory "Building", ['$resource',($resource) ->
       @canvas.mouseup(@mouse_up_event)
 
       @tile_size_0 = 10
-      @zoom = 2
+      @zoom = 1
       @buildings = Building.query(town_id: @town_id)
       @buildingFactory = false
 
-      console.log(@resolution)
 
       @context = @canvas[0].getContext('2d')
       @context.lineWidth = 1
       @draw()
+
+
 
     tile_size: =>
       @zoom * @tile_size_0
@@ -67,11 +70,10 @@ app.factory "Building", ['$resource',($resource) ->
       , 20)
 
     set_mode: (mode) =>
-      console.log(mode)
       @mode = mode
 
     mouse_coords: (e) ->
-      mouse_coords = [(e.clientX - @canvas[0].offsetLeft) / window.devicePixelRatio, (e.clientY - @canvas[0].offsetTop) / window.devicePixelRatio]
+      [(e.clientX - @canvas[0].offsetLeft), (e.clientY - @canvas[0].offsetTop)]
 
     mouse_down_event: (e) =>
       @mouse_down = true
@@ -122,6 +124,30 @@ app.factory "Building", ['$resource',($resource) ->
 
         @mouse_move = mouse_coords
 
+    getNumericStyleProperty: (style, prop) ->
+      return parseInt(style.getPropertyValue(prop),10)
+
+    element_position: (e) =>
+        x = 0
+        y = 0
+        inner = true
+        while (e = e.offsetParent)
+          x += e.offsetLeft
+          y += e.offsetTop
+          style = getComputedStyle(e,null)
+          borderTop = @getNumericStyleProperty(style,"border-top-width")
+          borderLeft = @getNumericStyleProperty(style,"border-left-width")
+          y += borderTop
+          x += borderLeft
+          if (inner)
+            paddingTop = @getNumericStyleProperty(style,"padding-top")
+            paddingLeft = @getNumericStyleProperty(style,"padding-left")
+            y += paddingTop
+            x += paddingLeft
+          inner = false
+        return [x,y]
+
+
 
   class BuildingFactory
     constructor: (tile) ->
@@ -148,7 +174,6 @@ app.factory "Building", ['$resource',($resource) ->
 
     save: =>
       @building.$save(town_id: $scope.town_id, =>
-        console.log("Building saved")
         $scope.planner.buildings.push(@building)
         $scope.planner.buildingFactory = false
       )
@@ -165,3 +190,4 @@ app.factory "Building", ['$resource',($resource) ->
   $scope.planner = new Planner($scope.town_id)
 
 @PlannerCtrl.$inject = ['$scope', '$timeout', '$http', 'Building']
+

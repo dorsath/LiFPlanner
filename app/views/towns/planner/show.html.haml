@@ -15,16 +15,17 @@
     
   %canvas#planner
 
-  %form#buildingFactory(role="form" ng-show="planner.buildingFactory.building")
-    %h4 New building
-    .form-group
-      %label(for="factoryTitle") Title:
-      %input(ng-model="planner.buildingFactory.building.title" id="factoryTitle")
+  #form_container
+    %form#buildingFactory(role="form" ng-show="planner.buildingFactory.building")
+      %h4 New building
+      .form-group
+        %label(for="factoryTitle") Title:
+        %input(ng-model="planner.buildingFactory.building.title" id="factoryTitle")
 
-    .form-group
-      %label(for="factoryNote") Note:
-      %textarea(ng-model="planner.buildingFactory.building.note" id="factoryNote")
+      .form-group
+        %label(for="factoryNote") Note:
+        %textarea(ng-model="planner.buildingFactory.building.note" id="factoryNote")
 
-    %button.submit(ng-click="planner.buildingFactory.save()") Save
-    %button.cancel(ng-click="planner.buildingFactory.cancel()") Cancel
+      %button.submit(ng-click="planner.buildingFactory.save()") Save
+      %button.cancel(ng-click="planner.buildingFactory.cancel()") Cancel
 
