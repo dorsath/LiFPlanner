@@ -1,4 +1,6 @@
 class Towns::Planner::BuildingsController < ApplicationController
+  before_filter :authorize_townsman
+
   def new
     @town = Town.find(params[:town_id])
     @building = @town.buildings.new
@@ -47,6 +49,12 @@ class Towns::Planner::BuildingsController < ApplicationController
     render json: @building.to_json(include: :created_by, methods: :center)
   end
 
+
+  def authorize_townsman
+    if !Town.exists?(params[:town_id]) || Town.find(params[:town_id]).users.where(user_id: current_user.id).empty?
+      redirect_to root_path
+    end
+  end
 
   private
 
