@@ -23,7 +23,6 @@ app.factory "Building", ['$resource',($resource) ->
 
       @mode = "camera"
       @modes = ["camera", "draw"]
-      console.log(@modes)
 
       @canvas.mousedown(@mouse_down_event)
       @canvas.mouseup(@mouse_up_event)
@@ -80,7 +79,7 @@ app.factory "Building", ['$resource',($resource) ->
       @mode = mode
 
     mouse_coords: (e) ->
-      [(e.clientX - @canvas[0].offsetLeft), (e.clientY - @canvas[0].offsetTop)]
+      [(e.clientX - @canvas[0].offsetLeft), (e.clientY - @canvas[0].offsetTop + $(document).scrollTop())]
 
     mouse_down_event: (e) =>
       @mouse_down = true
