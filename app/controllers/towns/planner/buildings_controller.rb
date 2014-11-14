@@ -51,7 +51,7 @@ class Towns::Planner::BuildingsController < ApplicationController
 
 
   def authorize_townsman
-    if !Town.exists?(params[:town_id]) || Town.find(params[:town_id]).users.where(user_id: current_user.id).empty?
+    if !Town.exists?(params[:town_id]) || Town.find(params[:town_id]).townsmen.where(user_id: current_user.id).empty?
       redirect_to root_path
     end
   end
