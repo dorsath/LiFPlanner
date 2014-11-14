@@ -12,8 +12,8 @@ class Building < ActiveRecord::Base
     height = max_y[1] - min_y[1] + 1
     
     center = [
-      min_x[0] + (width / 2),
-      min_y[1] + (height / 2)
+      min_x[0] + (width / 2).floor,
+      min_y[1] + (height / 2).floor
     ]
   end
 end

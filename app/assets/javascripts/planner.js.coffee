@@ -2,8 +2,9 @@ app = angular.module('Herbs')
 
 app.factory "Building", ['$resource',($resource) ->
   $resource("/towns/:town_id/planner/buildings/:id.json", {town_id: '@town_id', id: '@id'},{
-    new: { method: 'GET', url: "/towns/:town_id/planner/buildings/new.json"}
-    changed: { method: 'GET', url: "/towns/:town_id/planner/changed.json"}
+    new: { method: 'GET', url: "/towns/:town_id/planner/buildings/new.json"},
+    changed: { method: 'GET', url: "/towns/:town_id/planner/changed.json"},
+    save: { method: 'PUT', url: "/towns/:town_id/planner/buildings/:id.json"}
   })]
 
 
@@ -23,7 +24,7 @@ app.factory "Building", ['$resource',($resource) ->
       @camera = [0,0]
 
       @mode = "camera"
-      @modes = ["camera", "build"]
+      @modes = ["camera", "build", "edit"]
 
       @canvas.mousedown(@mouse_down_event)
       @canvas.mouseup(@mouse_up_event)
@@ -32,6 +33,7 @@ app.factory "Building", ['$resource',($resource) ->
       @zoom = 2.1
       @buildings = Building.query(town_id: @town_id)
       @buildingFactory = false
+      @editing = false
 
 
       @context = @canvas[0].getContext('2d')
@@ -68,25 +70,26 @@ app.factory "Building", ['$resource',($resource) ->
         for y in [top_left[1]..bottom_right[1]]
           @draw_tile(x, y)
     
-      if @buildingFactory
-        for tile in @buildingFactory.area
-          coords = @tile_to_coords(tile)
-          @context.fillStyle = "yellow"
-          @context.fillRect(coords[0], coords[1], @tile_size(), @tile_size())
-
       for building in @buildings
-        
         for tile in building.area
           coords = @tile_to_coords(tile)
           @context.fillStyle = "green"
           @context.fillRect(coords[0], coords[1], @tile_size(), @tile_size())
 
         text_coords = @tile_to_coords(building.center)
+        text_coords[0] += @tile_size() / 2
         @context.textAlign = "center"
         @context.font = "17px Helvetica Neue"
         @context.textBaseline = "top"
         @context.fillStyle = "white"
         @context.fillText(building.title, text_coords[0], text_coords[1])
+
+      if @buildingFactory
+        for tile in @buildingFactory.area
+          coords = @tile_to_coords(tile)
+          @context.fillStyle = "yellow"
+          @context.fillRect(coords[0], coords[1], @tile_size(), @tile_size())
+
 
       $timeout( =>
         @draw()
@@ -108,6 +111,12 @@ app.factory "Building", ['$resource',($resource) ->
 
         @buildingFactory = new BuildingFactory(tile)
         @mouse_action = @buildingFactory
+
+      if @mode == 'edit' && @tooltip
+        @buildingFactory = new BuildingFactory([0,0])
+        @buildingFactory.building = @tooltip
+        @buildingFactory.area = @buildingFactory.building.area
+        @buildingFactory.mode = "edit"
           
     tile_to_coords: (tile) =>
       [
@@ -163,39 +172,13 @@ app.factory "Building", ['$resource',($resource) ->
         if found == false
           @tooltip = false
 
-
-
-
-    getNumericStyleProperty: (style, prop) ->
-      return parseInt(style.getPropertyValue(prop),10)
-
-    element_position: (e) =>
-        x = 0
-        y = 0
-        inner = true
-        while (e = e.offsetParent)
-          x += e.offsetLeft
-          y += e.offsetTop
-          style = getComputedStyle(e,null)
-          borderTop = @getNumericStyleProperty(style,"border-top-width")
-          borderLeft = @getNumericStyleProperty(style,"border-left-width")
-          y += borderTop
-          x += borderLeft
-          if (inner)
-            paddingTop = @getNumericStyleProperty(style,"padding-top")
-            paddingLeft = @getNumericStyleProperty(style,"padding-left")
-            y += paddingTop
-            x += paddingLeft
-          inner = false
-        return [x,y]
-
-
-
   class BuildingFactory
     constructor: (tile) ->
       @start_tile = tile
       @current_tile = false
       @area = []
+      @mode = "create"
+
 
     mouse_up_event: (tile) =>
       @new_form()
@@ -217,7 +200,8 @@ app.factory "Building", ['$resource',($resource) ->
 
     save: =>
       @building.$save(town_id: $scope.town_id, =>
-        $scope.planner.buildings.push(@building)
+        if @mode == "create"
+          $scope.planner.buildings.push(@building)
         $scope.planner.buildingFactory = false
       )
 
@@ -246,8 +230,9 @@ app.factory "Building", ['$resource',($resource) ->
         item = $.grep(@planner.buildings, (e) => 
           return e.id == id
         )[0]
+        console.log(item)
 
-        item.$get({town_id: @town_id})
+        #item.$get({town_id: @town_id})
       )
 
     add: (ids) =>

@@ -15,10 +15,19 @@ class Towns::Planner::BuildingsController < ApplicationController
     @town = Town.find(params[:town_id])
     my_townsman = @town.townsmen.where(user: current_user).first
 
-    @building = @town.buildings.new(new_building_param)
+    @building = @town.buildings.new(building_param)
     @building.created_by = my_townsman
     @building.area = params[:area]
     @building.save
+
+    render json: @building.to_json(include: :created_by, methods: :center)
+  end
+
+  def update
+    @town = Town.find(params[:town_id])
+    my_townsman = @town.townsmen.where(user: current_user).first
+    @building = @town.buildings.find(params[:id])
+    @building.update_attributes(building_param)
 
     render json: @building.to_json(include: :created_by, methods: :center)
   end
@@ -32,7 +41,7 @@ class Towns::Planner::BuildingsController < ApplicationController
 
   private
 
-  def new_building_param
+  def building_param
     params.permit(:title, :area, :note)
   end
 end
