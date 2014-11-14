@@ -22,6 +22,8 @@ app.factory "Building", ['$resource',($resource) ->
       @camera = [0,0]
 
       @mode = "camera"
+      @modes = ["camera", "draw"]
+      console.log(@modes)
 
       @canvas.mousedown(@mouse_down_event)
       @canvas.mouseup(@mouse_up_event)
@@ -37,6 +39,8 @@ app.factory "Building", ['$resource',($resource) ->
       @draw()
 
 
+    center: =>
+      @camera = [0,0]
 
     tile_size: =>
       @zoom * @tile_size_0

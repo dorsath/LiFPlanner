@@ -7,10 +7,10 @@
   %br
 
   %ul#planner_menu
+    %li(ng-repeat="mode in planner.modes")
+      %button(ng-class="{active: planner.mode == mode}" ng-click="planner.set_mode(mode)") {{mode}}
     %li
-      %button(ng-click="planner.set_mode('camera')") Camera
-    %li
-      %button(ng-click="planner.set_mode('draw')") Draw Town
+      %button(ng-click="planner.center()") center
 
     
   %canvas#planner

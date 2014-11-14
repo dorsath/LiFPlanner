@@ -25,3 +25,18 @@
     }
   }
 }
+
+#planner_menu {
+  @extend .nav;
+  @extend .nav-pills;
+  margin-bottom: 10px;
+
+  li {
+
+    button {
+      @extend .btn;
+      @extend .btn-default;
+
+    }
+  }
+}
