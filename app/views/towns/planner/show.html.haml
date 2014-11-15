@@ -17,7 +17,7 @@
       %button(ng-click="planner.zoomIn(-0.2)") Zoom out
 
     
-  %canvas#planner
+  %canvas#planner(ng-class="planner.mode")
 
   #tooltip(ng-show="planner.tooltip")
     .title Title: {{ planner.tooltip.title }}

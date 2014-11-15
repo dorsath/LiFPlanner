@@ -35,6 +35,7 @@ app.factory "Building", ['$resource',($resource) ->
       @buildings = Building.query(town_id: @town_id)
       @buildingFactory = false
       @editing = false
+      @current_tile = false
 
 
       @context = @canvas[0].getContext('2d')
@@ -76,6 +77,12 @@ app.factory "Building", ['$resource',($resource) ->
       for x in [top_left[0]..bottom_right[0]]
         for y in [top_left[1]..bottom_right[1]]
           @draw_tile(x, y)
+
+      if @current_tile && (@mode == "build" || @mode == "edit")
+        coords = @tile_to_coords(@current_tile)
+        @context.fillStyle = "#DEDEDE"
+        @context.fillRect(coords[0], coords[1], @tile_size(), @tile_size())
+
     
       for building in @buildings
         for tile in building.area
@@ -164,12 +171,12 @@ app.factory "Building", ['$resource',($resource) ->
       
         @mouse_move = mouse_coords
       else
-        current_tile = @coords_to_tile(mouse_coords)
+        @current_tile = @coords_to_tile(mouse_coords)
 
         found = false
         $.each(@buildings, (key, building) =>
           tile_found = $.grep(building.area, (tile) => 
-            return(tile[0] == current_tile[0] && tile[1] == current_tile[1])
+            return(tile[0] == @current_tile[0] && tile[1] == @current_tile[1])
           )
           if tile_found.length > 0
             found = true
