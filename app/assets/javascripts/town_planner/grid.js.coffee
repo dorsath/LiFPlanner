@@ -12,15 +12,5 @@ app.service 'Grid', [class Grid
         coords = canvas.tile_to_coords([x,y])
         canvas.context.strokeRect(coords[0], coords[1], canvas.tileSize(), canvas.tileSize())
 
-    console.log("Grid:draw")
-    console.log(canvas.tile_to_coords([0,0]))
-
-  mousedown: (event) ->
-    #console.log("Grid:MouseDown")
-
-  mouseup: (event) ->
-    #console.log("Grid:MouseUp")
-    return true
-
 ]
 

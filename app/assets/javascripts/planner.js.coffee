@@ -1,15 +1,17 @@
 #= require town_planner/resources
 #= require town_planner/renderer
 #= require town_planner/grid
+#= require town_planner/camera
 
-@PlannerCtrl = app.controller 'PlannerCtrl', ($scope, $timeout, $http, Renderer, Building, Grid) ->
+@PlannerCtrl = app.controller 'PlannerCtrl', ($scope, $timeout, $http, Renderer, Building, Grid, Camera) ->
   startup = =>
     Renderer.setCanvas($("#town_planner").find("canvas#planner"))
-    #Renderer.startRender()
-    Renderer.eventsRegister.mousedown.push(Grid)
-    Renderer.eventsRegister.mouseup.push(Grid)
+    Renderer.eventsRegister.mousedown.push(Camera)
+    Renderer.eventsRegister.mouseup.push(Camera)
+    Renderer.objects.push(Camera)
     Renderer.objects.push(Grid)
-    Renderer.draw()
+    Renderer.startRender()
+    #Renderer.draw()
 
 
 
@@ -17,7 +19,7 @@
 
 
 
-PlannerCtrl.$inject = ['$scope', '$timeout', '$http', 'Renderer', 'Building', 'Grid']
+PlannerCtrl.$inject = ['$scope', '$timeout', '$http', 'Renderer', 'Building', 'Grid', 'Camera']
 
     #    constructor: ($scope, $timeout, $http, Building) ->
     #      @$timeout = $timeout

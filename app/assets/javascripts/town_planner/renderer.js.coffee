@@ -2,11 +2,10 @@ app.service 'Renderer', ['$timeout', class Renderer
   constructor: (@$timeout) ->
     console.log("Renderer:Constructor")
     @render = false
-    @framerate = 2
+    @framerate = 60
     @objects = []
     @tileSize0 = 10
     @zoom = 2.1
-    @camera = [0, 0]
     @eventsRegister = {
       mousedown: [],
       mouseup: []
@@ -23,27 +22,32 @@ app.service 'Renderer', ['$timeout', class Renderer
 
     @canvas[0].width  = @canvas.resolution[0]
     @canvas[0].height = @canvas.resolution[1]
+    @canvas.camera = [0, 0]
+
     @canvas.tileSize = =>
       @tileSize()
 
     @canvas.tile_to_coords = (tile) =>
         [
-          (@canvas.resolution[0] / 2) - (@tileSize() / 2) + @tileSize() * tile[0] + @camera[0],
-          (@canvas.resolution[1] / 2) - (@tileSize() / 2) + @tileSize() * tile[1] + @camera[1]
+          (@canvas.resolution[0] / 2) - (@tileSize() / 2) + @tileSize() * tile[0] + @canvas.camera[0],
+          (@canvas.resolution[1] / 2) - (@tileSize() / 2) + @tileSize() * tile[1] + @canvas.camera[1]
         ]
     @canvas.coords_to_tile = (coords) =>
         [
-          Math.floor( (coords[0] - (@canvas.resolution[0] / 2) + (@tileSize() / 2) - @camera[0]) / @tileSize() ),
-          Math.floor( (coords[1] - (@canvas.resolution[1] / 2) + (@tileSize() / 2) - @camera[1]) / @tileSize() )
+          Math.floor( (coords[0] - (@canvas.resolution[0] / 2) + (@tileSize() / 2) - @canvas.camera[0]) / @tileSize() ),
+          Math.floor( (coords[1] - (@canvas.resolution[1] / 2) + (@tileSize() / 2) - @canvas.camera[1]) / @tileSize() )
         ]
 
     @canvas.mousedown(@handleEvent)
     @canvas.mouseup(@handleEvent)
-
+    @canvas.mousemove(@handleMouseMoveEvent)
 
   handleEvent: (event) =>
     for register in @eventsRegister[event.type].reverse()
-      break if register[event.type](event)
+      break if register[event.type](event, @canvas)
+
+  handleMouseMoveEvent: (event) =>
+    @canvas.mouseCoords = [(event.clientX - @canvas[0].offsetLeft), (event.clientY - @canvas[0].offsetTop + $(document).scrollTop())]
 
   startRender: ->
     @render = true
@@ -56,7 +60,11 @@ app.service 'Renderer', ['$timeout', class Renderer
 
 
   draw: ->
-    console.log("tick")
+    return unless @canvas
+
+    @canvas.context.fillStyle = "white"
+    @canvas.context.fillRect(0, 0, @canvas.resolution[0], @canvas.resolution[1])
+
     for object in @objects
       object.draw(@canvas)
     #request = @$http.get '/tweets', params: { ts: @timestamp }
