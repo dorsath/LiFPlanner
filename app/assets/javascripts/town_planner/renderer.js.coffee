@@ -10,18 +10,26 @@ app.service 'Renderer', ['$timeout', class Renderer
       mousedown: [],
       mouseup: []
     }
+    
+    window.onresize = =>
+      @resolutionCorrection()
 
     @tick()
 
   tileSize: =>
     @zoom * @tileSize0
 
-  setCanvas: (@canvas) =>
-    @canvas.context = @canvas[0].getContext('2d')
-    @canvas.resolution = [@canvas[0].offsetWidth, window.innerHeight - @canvas[0].offsetTop - 10]
 
+  resolutionCorrection: =>
+    @canvas.resolution = [@canvas[0].offsetWidth, window.innerHeight - @canvas[0].offsetTop - 10]
     @canvas[0].width  = @canvas.resolution[0]
     @canvas[0].height = @canvas.resolution[1]
+
+  setCanvas: (@canvas) =>
+    @canvas.context = @canvas[0].getContext('2d')
+
+    @resolutionCorrection()
+
     @canvas.camera = [0, 0]
 
     @canvas.tileSize = =>
