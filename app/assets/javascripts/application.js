@@ -17,3 +17,5 @@
 //= require angular-resource
 //= require angular-sanitize
 //= require angular-config
+
+window.app = angular.module('Herbs')
