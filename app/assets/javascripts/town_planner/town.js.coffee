@@ -22,6 +22,21 @@ app.service 'Town', ['Building', 'HeightMap', class Town
       return heightMap.x == x && heightMap.y == y
     )[0]
 
+  newBuilding: =>
+    new @Building(town_id: @townId)
+
+  findBuilding: (tile) =>
+    result = false
+    $.each(@buildings, (key, building) =>
+      tile_found = $.grep(building.area, (buildingTile) =>
+        return(buildingTile[0] == tile[0] && buildingTile[1] == tile[1])
+      )
+      if tile_found.length > 0
+        result = building
+        return
+    )
+    return result
+    
   draw: (canvas) =>
     @drawBuildings(canvas)
     @drawHeightMaps(canvas)

@@ -25,19 +25,19 @@
     .name Created by: {{ planner.tooltip.created_by.name }}
 
   #form_container
-    %form#buildingFactory(role="form" ng-show="planner.buildingFactory.building")
+    %form#buildingFactory(role="form" ng-show="buildingFactory.formVisible")
       %h4 New building
       .form-group
         %label(for="factoryTitle") Title:
-        %input(ng-model="planner.buildingFactory.building.title" id="factoryTitle")
+        %input(ng-model="buildingFactory.building.title" id="factoryTitle")
 
       .form-group
         %label(for="factoryNote") Note:
-        %textarea(ng-model="planner.buildingFactory.building.note" id="factoryNote")
+        %textarea(ng-model="buildingFactory.building.note" id="factoryNote")
 
-      %button.submit(ng-click="planner.buildingFactory.save()") Save
-      %button.cancel(ng-click="planner.buildingFactory.cancel()") Cancel
-      %button.delete(ng-click="planner.buildingFactory.delete()" ng-show="planner.buildingFactory.mode == 'edit'") Delete
+      %button.submit(ng-click="buildingFactory.save()") Save
+      %button.cancel(ng-click="buildingFactory.cancel()") Cancel
+      %button.delete(ng-click="buildingFactory.delete()" ng-show="buildingFactory.mode == 'edit'") Delete
 
     %form#levelerForm(role="form" ng-show="leveler.formVisible")
       .form-group
