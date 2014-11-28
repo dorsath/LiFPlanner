@@ -30,7 +30,6 @@ app.service 'Selection', [class Selection
   end: =>
     @active = false
     @selecting = false
-    return @area
 
   stopSelecting: =>
     @selecting = false

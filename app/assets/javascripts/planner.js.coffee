@@ -10,9 +10,10 @@
   startup = =>
     @townId = $("#town_id").val()
     $scope.modes = [
+      ["Camera", Camera],
       ["Leveler",Leveler]
     ]
-    $scope.activeMode = false
+    $scope.activeMode = ["Camera", Camera]
     $scope.leveler = Leveler
 
     $scope.setMode = (name, mode) =>

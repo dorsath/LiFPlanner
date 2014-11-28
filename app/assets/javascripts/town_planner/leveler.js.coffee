@@ -23,7 +23,6 @@ app.service 'Leveler', ['Selection', 'Town', 'HeightMap', class Leveler
 
 
   cancel: =>
-    @active = false
     @formVisible = false
     @Selection.end()
 

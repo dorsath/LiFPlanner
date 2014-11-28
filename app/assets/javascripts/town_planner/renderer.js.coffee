@@ -49,12 +49,17 @@ app.service 'Renderer', ['$timeout', class Renderer
           Math.floor( (coords[1] - (@canvas.resolution[1] / 2) + (@tileSize() / 2) - @canvas.camera[1]) / @tileSize() )
         ]
 
+    @canvas.bind('contextmenu', ->
+        return false
+    ) 
+        
+
     @canvas.mousedown(@handleEvent)
     @canvas.mouseup(@handleEvent)
     @canvas.mousemove(@handleMouseMoveEvent)
 
   handleEvent: (event) =>
-    for register in @eventsRegister[event.type].reverse()
+    for register in Array.prototype.slice.call(@eventsRegister[event.type]).reverse()
       break if register[event.type](event, @canvas)
 
   handleMouseMoveEvent: (event) =>

@@ -18,6 +18,9 @@ app.service 'Camera', [class Camera
   mouseup: (event, canvas) =>
     @moveCamera = false
 
+  deactivate: ->
+
+  activate: ->
 ]
 
 
