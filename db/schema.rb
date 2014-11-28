@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141127215208) do
+ActiveRecord::Schema.define(version: 20141128095807) do
 
   create_table "buildings", force: true do |t|
     t.integer  "town_id"
@@ -22,6 +22,15 @@ ActiveRecord::Schema.define(version: 20141127215208) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "color",         default: "8ae234"
+  end
+
+  create_table "height_maps", force: true do |t|
+    t.integer  "town_id"
+    t.text     "area"
+    t.integer  "x"
+    t.integer  "y"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "herbalism_list_items", force: true do |t|

@@ -3,6 +3,7 @@ class Town < ActiveRecord::Base
   has_many :townsmen, class_name: "Townsman"
   has_one :todo_list
   has_many :buildings
+  has_many :height_maps
 
   def add_townsman(user, rank, name)
     townsmen.create(user: user, rank: Townsman::RANKS.index(rank), name: name)

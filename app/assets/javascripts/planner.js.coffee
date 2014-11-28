@@ -3,8 +3,9 @@
 #= require town_planner/grid
 #= require town_planner/camera
 #= require town_planner/town
+#= require town_planner/selection
 
-@PlannerCtrl = app.controller 'PlannerCtrl', ($scope, $timeout, $http, Renderer, Building, Grid, Camera, Town) ->
+@PlannerCtrl = app.controller 'PlannerCtrl', ($scope, $timeout, $http, Renderer, Building, HeightMap, Grid, Camera, Town) ->
   startup = =>
     @townId = $("#town_id").val()
     Renderer.setCanvas($("#town_planner").find("canvas#planner"))
@@ -16,8 +17,10 @@
     Town.initialize(@townId)
 
     Renderer.objects.push(Town)
-    Renderer.startRender()
-    #Renderer.draw()
+    #Renderer.startRender()
+    $timeout( ->
+      Renderer.draw()
+    , 500)
 
 
 
@@ -25,7 +28,7 @@
 
 
 
-PlannerCtrl.$inject = ['$scope', '$timeout', '$http', 'Renderer', 'Building', 'Grid', 'Camera', 'Town']
+PlannerCtrl.$inject = ['$scope', '$timeout', '$http', 'Renderer', 'Building', 'HeightMap', 'Grid', 'Camera', 'Town']
 
     #    constructor: ($scope, $timeout, $http, Building) ->
     #      @$timeout = $timeout
@@ -304,4 +307,4 @@ PlannerCtrl.$inject = ['$scope', '$timeout', '$http', 'Renderer', 'Building', 'G
 #  $scope.town_id = $("#town_planner input#town_id").val()
 #  $scope.planner = new TownPlanner.Planner($scope.town_id)
 #
-@PlannerCtrl.$inject = ['$scope', '$timeout', '$http', 'Building']
+#@PlannerCtrl.$inject = ['$scope', '$timeout', '$http', 'Building']

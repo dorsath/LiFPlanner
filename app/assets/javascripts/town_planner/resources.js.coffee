@@ -5,3 +5,11 @@ app.factory "Building", ['$resource',($resource) ->
     save: { method: 'POST', url: "/towns/:town_id/planner/buildings.json"},
     update: { method: 'PUT', url: "/towns/:town_id/planner/buildings/:id.json"}
   })]
+
+app.factory "HeightMap", ['$resource',($resource) ->
+
+  $resource("/towns/:town_id/planner/height_maps/:x/:y.json", {town_id: '@town_id', x: '@x', y: '@y'},{
+  })
+
+
+]

@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
     resource :planner, controller: "towns/planner" do
       resources :buildings, controller: "towns/planner/buildings"
+      resource :height_maps, controller: "towns/planner/height_maps", path: "/height_maps/:x/:y"
       collection do
         get :changed
       end

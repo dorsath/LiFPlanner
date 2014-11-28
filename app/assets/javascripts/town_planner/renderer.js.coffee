@@ -5,7 +5,7 @@ app.service 'Renderer', ['$timeout', class Renderer
     @framerate = 60
     @objects = []
     @tileSize0 = 10
-    @zoom = 2.1
+    @zoom = 4.2
     @eventsRegister = {
       mousedown: [],
       mouseup: []
@@ -34,6 +34,9 @@ app.service 'Renderer', ['$timeout', class Renderer
 
     @canvas.tileSize = =>
       @tileSize()
+
+    @canvas.zoom = =>
+      @zoom
 
     @canvas.tile_to_coords = (tile) =>
         [
