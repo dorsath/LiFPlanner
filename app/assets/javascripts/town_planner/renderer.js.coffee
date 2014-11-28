@@ -60,6 +60,10 @@ app.service 'Renderer', ['$timeout', class Renderer
   handleMouseMoveEvent: (event) =>
     @canvas.mouseCoords = [(event.clientX - @canvas[0].offsetLeft), (event.clientY - @canvas[0].offsetTop + $(document).scrollTop())]
 
+  addToEventsRegister: (service) =>
+    @eventsRegister.mousedown.push(service)
+    @eventsRegister.mouseup.push(service)
+
   startRender: ->
     @render = true
 

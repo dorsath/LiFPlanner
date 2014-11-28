@@ -4,23 +4,37 @@
 #= require town_planner/camera
 #= require town_planner/town
 #= require town_planner/selection
+#= require town_planner/leveler
 
-@PlannerCtrl = app.controller 'PlannerCtrl', ($scope, $timeout, $http, Renderer, Building, HeightMap, Grid, Camera, Town) ->
+@PlannerCtrl = app.controller 'PlannerCtrl', ($scope, $timeout, $http, Renderer, Building, HeightMap, Grid, Camera, Town, Leveler, Selection) ->
   startup = =>
     @townId = $("#town_id").val()
+    $scope.modes = [
+      ["Leveler",Leveler]
+    ]
+    $scope.activeMode = false
+    $scope.leveler = Leveler
+
+    $scope.setMode = (name, mode) =>
+      $scope.activeMode[1].deactivate() if $scope.activeMode
+      $scope.activeMode = [name, mode]
+      mode.activate()
+
     Renderer.setCanvas($("#town_planner").find("canvas#planner"))
-    Renderer.eventsRegister.mousedown.push(Camera)
-    Renderer.eventsRegister.mouseup.push(Camera)
+    Renderer.addToEventsRegister(Camera)
+    Renderer.addToEventsRegister(Leveler)
     Renderer.objects.push(Camera)
     Renderer.objects.push(Grid)
+    Renderer.objects.push(Selection)
 
     Town.initialize(@townId)
 
     Renderer.objects.push(Town)
-    #Renderer.startRender()
-    $timeout( ->
-      Renderer.draw()
-    , 500)
+    Renderer.startRender()
+    #$timeout( ->
+    #  Renderer.draw()
+    #, 500)
+
 
 
 
@@ -28,7 +42,7 @@
 
 
 
-PlannerCtrl.$inject = ['$scope', '$timeout', '$http', 'Renderer', 'Building', 'HeightMap', 'Grid', 'Camera', 'Town']
+PlannerCtrl.$inject = ['$scope', '$timeout', '$http', 'Renderer', 'Building', 'HeightMap', 'Grid', 'Camera', 'Town', 'Leveler', 'Selection']
 
     #    constructor: ($scope, $timeout, $http, Building) ->
     #      @$timeout = $timeout

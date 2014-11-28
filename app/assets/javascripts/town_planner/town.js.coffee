@@ -5,22 +5,26 @@ app.service 'Town', ['Building', 'HeightMap', class Town
 
   initialize: (@townId)=>
     @buildings = @Building.query(town_id: @townId)
-    @heightMaps = []
-    @HeightMap.get(town_id: @townId, x: 0, y: 0, (data) =>
-      @heightMaps.push(data)
-    )
+    @heightMaps = @HeightMap.query(town_id: @townId)
     console.log("Town:Initialize")
+
+  findOrCreateHeightMap: (x,y) =>
+    if heightMap = @findHeightMap(x,y)
+      return heightMap
+    else
+      newHeightMap = @HeightMap.create(town_id: @townId, x: x, y: y, area: @HeightMap.emptyArea())
+      @heightMaps.push(newHeightMap)
+      return newHeightMap
+    
+
+  findHeightMap: (x,y) =>
+    return result = $.grep(@heightMaps, (heightMap) =>
+      return heightMap.x == x && heightMap.y == y
+    )[0]
 
   draw: (canvas) =>
     @drawBuildings(canvas)
     @drawHeightMaps(canvas)
-
-
-  coordinate_to_height_map: (coordinate) ->
-    [
-      Math.floor(coordinate[0] / 10) * 10,
-      Math.floor(coordinate[1] / 10) * 10
-    ]
 
 
   drawHeightMaps: (canvas) =>
@@ -29,6 +33,7 @@ app.service 'Town', ['Building', 'HeightMap', class Town
     canvas.context.textAlign = 'center'
     for heightMap in @heightMaps
       for height, index in heightMap.area
+        continue if height == 0
         tile = [
           heightMap.x + index % 10,
           heightMap.y + Math.floor(index / 10)
@@ -43,10 +48,6 @@ app.service 'Town', ['Building', 'HeightMap', class Town
         else
           canvas.context.fillStyle = "white"
         canvas.context.fillText(height,coords[0], coords[1])
-
-        
-
-
 
     #top_left = canvas.coords_to_tile([0,0])
     #bottom_right = canvas.coords_to_tile(canvas.resolution)

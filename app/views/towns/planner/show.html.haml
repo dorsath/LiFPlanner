@@ -7,8 +7,8 @@
   %br
 
   %ul#planner_menu
-    %li(ng-repeat="mode in planner.modes")
-      %button(ng-class="{active: planner.mode == mode}" ng-click="planner.set_mode(mode)") {{mode}}
+    %li(ng-repeat="mode in modes")
+      %button(ng-class="{active: activeMode[0] == mode[0]}" ng-click="setMode(mode[0], mode[1])") {{mode[0]}}
     %li
       %button(ng-click="planner.center()") center
     %li
@@ -38,4 +38,14 @@
       %button.submit(ng-click="planner.buildingFactory.save()") Save
       %button.cancel(ng-click="planner.buildingFactory.cancel()") Cancel
       %button.delete(ng-click="planner.buildingFactory.delete()" ng-show="planner.buildingFactory.mode == 'edit'") Delete
+
+    %form#levelerForm(role="form" ng-show="leveler.formVisible")
+      .form-group
+        %label(for="levelerHeight") Height:
+        %input(ng-model="leveler.height" id="levelerHeight")
+      %button.submit(ng-click="leveler.save()") Save
+      %button.cancel(ng-click="leveler.cancel()") Cancel
+
+
+
 
