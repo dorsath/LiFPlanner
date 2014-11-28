@@ -22,5 +22,19 @@ class Towns::Planner::HeightMapsController < ApplicationController
     town = current_user.towns.find(params[:town_id])
     render json: town.height_maps.all.to_json
   end
+
+  def changed
+    town = Town.find(params[:town_id])
+
+    time = 3.seconds
+    changed = town.height_maps.where("updated_at > ?", DateTime.now.ago(time)).map(&:id)
+    created = town.height_maps.where("created_at > ?", DateTime.now.ago(time)).map(&:id)
+    result = {
+      updated: (changed - created),
+      created: created
+    }
+    
+    render json: result.to_json
+  end
 end
 

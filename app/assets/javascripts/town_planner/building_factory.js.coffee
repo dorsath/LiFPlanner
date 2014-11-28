@@ -43,6 +43,8 @@ app.service 'BuildingFactory', ['Selection', 'Town', 'Building', class BuildingF
     @active = true
 
   deactivate: =>
+    @formVisible = false
+    @Selection.end()
     @active = false
 ]
 

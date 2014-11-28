@@ -9,7 +9,8 @@ app.factory "Building", ['$resource',($resource) ->
 app.factory "HeightMap", ['$resource', ($resource) -> 
   HeightMap = $resource("/towns/:town_id/planner/height_maps/:x/:y.json", {town_id: '@town_id', x: '@x', y: '@y'},{
     save: { method: 'PATCH'},
-    create: { method: 'POST'}
+    create: { method: 'POST'},
+    changed: { method: 'GET', url: "/towns/:town_id/planner/height_maps/changed.json"}
   })
 
   HeightMap.tile_to_height_map = (coordinate) ->

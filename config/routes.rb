@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     resource :planner, controller: "towns/planner" do
       resources :buildings, controller: "towns/planner/buildings"
       get '/height_maps', to: "towns/planner/height_maps#index"
+      get '/height_maps/changed', to: "towns/planner/height_maps#changed"
       resource :height_maps, controller: "towns/planner/height_maps", path: "/height_maps/:x/:y"
       collection do
         get :changed

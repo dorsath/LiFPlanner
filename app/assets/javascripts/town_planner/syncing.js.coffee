@@ -1,15 +1,21 @@
-app.service 'Syncing', ['$timeout', 'Building', 'Town', class Syncing
-  constructor: (@$timeout, @Building, @Town) ->
+app.service 'Syncing', ['$timeout', 'Building', 'HeightMap', 'Town', class Syncing
+  constructor: (@$timeout, @Building, @HeightMap, @Town) ->
     #@planner = $scope.planner
 
   poll: =>
-    console.log("Syncing:Poll")
     @$timeout( =>
       changed = @Building.changed(town_id: @Town.townId, =>
         if changed.updated.length > 0
           @update(changed.updated)
         if changed.created.length > 0
           @add(changed.created)
+      )
+
+      changedHeightMaps = @HeightMap.changed(town_id: @Town.townId, =>
+        if changedHeightMaps.updated.length > 0
+          @updateHeightMaps(changedHeightMaps.updated)
+        if changedHeightMaps.created.length > 0
+          @addHeightMaps(changedHeightMaps.created)
       )
       @poll()
     , 3000)
@@ -30,6 +36,25 @@ app.service 'Syncing', ['$timeout', 'Building', 'Town', class Syncing
       if items_found.length == 0
         item = @Building.get({town_id: @Town.townId, id: id}, =>
           @Town.buildings.push(item)
+        )
+    )
+
+  updateHeightMaps: (ids) =>
+    $.each(ids, (key, id) =>
+      item = $.grep(@Town.heightMaps, (e) => 
+        return e.id == id
+      )[0]
+      item.$get({town_id: @Town.townId})
+    )
+
+  addHeightMaps: (ids) =>
+    $.each(ids, (key, id) =>
+      items_found = $.grep(@Town.heightMaps, (e) => 
+        return e.id == id
+      )
+      if items_found.length == 0
+        item = @HeightMap.get({town_id: @Town.townId, id: id}, =>
+          @Town.heightMaps.push(item)
         )
     )
 ]

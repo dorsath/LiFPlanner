@@ -33,8 +33,8 @@
 
     Town.initialize(@townId)
 
-    Renderer.objects.push(Town)
     Renderer.objects.push(Grid)
+    Renderer.objects.push(Town)
     Renderer.objects.push(Selection)
 
     Renderer.startRender()

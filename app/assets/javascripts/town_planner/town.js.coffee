@@ -72,6 +72,8 @@ app.service 'Town', ['Building', 'HeightMap', class Town
         coords = canvas.tile_to_coords(tile)
         canvas.context.fillStyle = "##{building.color}"
         canvas.context.fillRect(coords[0], coords[1], canvas.tileSize(), canvas.tileSize())
+        canvas.context.strokeStyle= "#73d216"
+        canvas.context.strokeRect(coords[0], coords[1], canvas.tileSize(), canvas.tileSize())
 
 
 ]
