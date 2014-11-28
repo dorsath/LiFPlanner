@@ -6,8 +6,9 @@
 #= require town_planner/selection
 #= require town_planner/leveler
 #= require town_planner/building_factory
+#= require town_planner/syncing
 
-@PlannerCtrl = app.controller 'PlannerCtrl', ($scope, $timeout, $http, Renderer, Building, HeightMap, Grid, Camera, Town, Leveler, Selection, BuildingFactory) ->
+@PlannerCtrl = app.controller 'PlannerCtrl', ($scope, $timeout, $http, Renderer, Building, HeightMap, Grid, Camera, Town, Leveler, Selection, BuildingFactory, Syncing) ->
   startup = =>
     @townId = $("#town_id").val()
     $scope.modes = [
@@ -41,6 +42,7 @@
     #  Renderer.draw()
     #, 500)
 
+    Syncing.poll()
 
 
 
@@ -48,7 +50,7 @@
 
 
 
-PlannerCtrl.$inject = ['$scope', '$timeout', '$http', 'Renderer', 'Building', 'HeightMap', 'Grid', 'Camera', 'Town', 'Leveler', 'Selection', 'BuildingFactory']
+PlannerCtrl.$inject = ['$scope', '$timeout', '$http', 'Renderer', 'Building', 'HeightMap', 'Grid', 'Camera', 'Town', 'Leveler', 'Selection', 'BuildingFactory', 'Syncing']
 
     #    constructor: ($scope, $timeout, $http, Building) ->
     #      @$timeout = $timeout

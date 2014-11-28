@@ -25,7 +25,7 @@ app.service 'BuildingFactory', ['Selection', 'Town', 'Building', class BuildingF
     if @active
       @Selection.stopSelecting()
       @formVisible = true
-      @building.area = @Selection.area
+      @building.area = @Selection.area unless @mode == "edit"
     return @active
 
   mousedown: (event, canvas) =>

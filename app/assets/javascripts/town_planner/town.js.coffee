@@ -35,6 +35,7 @@ app.service 'Town', ['Building', 'HeightMap', class Town
         result = building
         return
     )
+
     return result
     
   draw: (canvas) =>
@@ -63,9 +64,6 @@ app.service 'Town', ['Building', 'HeightMap', class Town
         else
           canvas.context.fillStyle = "white"
         canvas.context.fillText(height,coords[0], coords[1])
-
-    #top_left = canvas.coords_to_tile([0,0])
-    #bottom_right = canvas.coords_to_tile(canvas.resolution)
 
 
   drawBuildings: (canvas) =>
