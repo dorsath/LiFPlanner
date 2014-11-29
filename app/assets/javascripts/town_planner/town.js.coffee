@@ -66,4 +66,4 @@ app.service 'Town', ['Building', 'HeightMap', 'Cache', class Town
 
 ]
 
-
+Town.$inject = ['Building', 'HeightMap', 'Cache']

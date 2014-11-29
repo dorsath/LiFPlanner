@@ -91,3 +91,4 @@ app.service 'Renderer', ['$timeout', class Renderer
     #  @tweets = result.data
     #  @timestamp = Date.now()
 ]
+Renderer.$inject = ['$timeout']

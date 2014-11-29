@@ -12,4 +12,3 @@ app.service 'Grid', [class Grid
         canvas.context.strokeRect(coords[0], coords[1], canvas.tileSize(), canvas.tileSize())
 
 ]
-

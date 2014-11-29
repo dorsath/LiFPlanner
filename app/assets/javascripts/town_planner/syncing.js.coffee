@@ -61,3 +61,5 @@ app.service 'Syncing', ['$timeout', 'Building', 'HeightMap', 'Town', class Synci
         )
     )
 ]
+
+Syncing.$inject = ['$timeout', 'Building', 'HeightMap', 'Town']

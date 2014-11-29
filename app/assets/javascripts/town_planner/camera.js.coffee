@@ -26,3 +26,4 @@ app.service 'Camera', ['Town', class Camera
 ]
 
 
+Camera.$inject = ['Town']

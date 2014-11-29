@@ -67,3 +67,4 @@ app.service 'BuildingFactory', ['Selection', 'Town', 'Building', class BuildingF
     @active = false
 ]
 
+BuildingFactory.$inject = ['Selection', 'Town', 'Building']

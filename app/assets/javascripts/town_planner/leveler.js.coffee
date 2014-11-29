@@ -48,3 +48,4 @@ app.service 'Leveler', ['Selection', 'Town', 'HeightMap', class Leveler
     return @active
 ]
 
+Leveler.$inject = ['Selection', 'Town', 'HeightMap']
