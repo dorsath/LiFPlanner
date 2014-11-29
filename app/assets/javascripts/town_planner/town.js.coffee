@@ -45,6 +45,7 @@ app.service 'Town', ['Building', 'HeightMap', 'Cache', class Town
     canvas.context.textBaseline = "middle"
     canvas.context.textAlign = 'center'
     for heightMap in @heightMaps
+      continue unless heightMap.area
       topLeft = canvas.tile_to_coords([heightMap.x, heightMap.y])
       dimensions = [10 * canvas.tileSize(), 10 * canvas.tileSize()]
       if @heightMapCaches[heightMap.id] == undefined || heightMap.redraw == true

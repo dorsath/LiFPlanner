@@ -10,7 +10,7 @@ app.service 'Leveler', ['Selection', 'Town', 'HeightMap', class Leveler
     for tile in area
       heightMapCoordinates = @HeightMap.tile_to_height_map(tile)
       heightMap = @Town.findOrCreateHeightMap(heightMapCoordinates[0],heightMapCoordinates[1])
-      heightMaps.push(heightMap) if $.inArray(heightMap, heightMaps) == -1
+      heightMaps.push(heightMap) if $.inArray(heightMap, heightMaps) == -1 #-1 means not in array
       areaIndex = (tile[0] - heightMapCoordinates[0]) + (tile[1] - heightMapCoordinates[1]) * 10
       heightMap.area[areaIndex] =  parseFloat(@height)
 
