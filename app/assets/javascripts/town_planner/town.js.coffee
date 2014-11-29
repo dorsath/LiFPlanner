@@ -1,5 +1,5 @@
-app.service 'Town', ['Building', 'HeightMap', class Town
-  constructor: (@Building, @HeightMap) ->
+app.service 'Town', ['Building', 'HeightMap', 'Cache', class Town
+  constructor: (@Building, @HeightMap, @Cache) ->
     @heightMapCaches = {}
 
   initialize: (@townId)=>
@@ -51,15 +51,7 @@ app.service 'Town', ['Building', 'HeightMap', class Town
         canvas.context.drawImage(@heightMapCaches[heightMap.id], topLeft[0], topLeft[1])
       else
         heightMap.draw(canvas)
-        imageData = canvas.context.getImageData(topLeft[0], topLeft[1], dimensions[0], dimensions[1])
-        cacheCanvas  = $("canvas#cache")
-        cacheContext = cacheCanvas[0].getContext('2d')
-        cacheCanvas[0].width = dimensions[0]
-        cacheCanvas[0].height = dimensions[1]
-        cacheContext.putImageData(imageData, 0, 0)
-        img = new Image()
-        img.src = cacheCanvas[0].toDataURL("image/png")
-        @heightMapCaches[heightMap.id] = img
+        @heightMapCaches[heightMap.id] = @Cache.cacheCanvas(canvas, topLeft[0], topLeft[1], dimensions[0], dimensions[1])
         heightMap.redraw = false
 
 

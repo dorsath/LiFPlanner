@@ -7,6 +7,7 @@
 #= require town_planner/leveler
 #= require town_planner/building_factory
 #= require town_planner/syncing
+#= require town_planner/cache
 
 @PlannerCtrl = app.controller 'PlannerCtrl', ($scope, $timeout, $http, Renderer, Building, HeightMap, Grid, Camera, Town, Leveler, Selection, BuildingFactory, Syncing) ->
   startup = =>
