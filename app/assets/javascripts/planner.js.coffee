@@ -20,6 +20,12 @@
     $scope.leveler = Leveler
     $scope.buildingFactory = BuildingFactory
 
+    $scope.zoomIn = (zoom) =>
+      Renderer.zoom += zoom
+
+    $scope.center = =>
+      Renderer.canvas.camera = [0, 0]
+
     $scope.setMode = (name, mode) =>
       $scope.activeMode[1].deactivate() if $scope.activeMode
       $scope.activeMode = [name, mode]

@@ -1,9 +1,8 @@
 app.service 'Leveler', ['Selection', 'Town', 'HeightMap', class Leveler
   constructor: (@Selection, @Town, @HeightMap) ->
-    console.log("Leveler:Constructor")
     @active = false
     @formVisible = false
-    @height = 25
+    @height = ""
 
   save: =>
     area = @Selection.area
@@ -13,7 +12,7 @@ app.service 'Leveler', ['Selection', 'Town', 'HeightMap', class Leveler
       heightMap = @Town.findOrCreateHeightMap(heightMapCoordinates[0],heightMapCoordinates[1])
       heightMaps.push(heightMap) if $.inArray(heightMap, heightMaps) == -1
       areaIndex = (tile[0] - heightMapCoordinates[0]) + (tile[1] - heightMapCoordinates[1]) * 10
-      heightMap.area[areaIndex] = @height
+      heightMap.area[areaIndex] =  parseFloat(@height)
 
     for heightMap in heightMaps
       heightMap.$save()
@@ -36,6 +35,9 @@ app.service 'Leveler', ['Selection', 'Town', 'HeightMap', class Leveler
     if @active
       @Selection.stopSelecting()
       @formVisible = true
+      setTimeout(=>
+        $("#levelerHeight").focus()
+      , 100)
     return @active
 
   mousedown: (event, canvas) =>

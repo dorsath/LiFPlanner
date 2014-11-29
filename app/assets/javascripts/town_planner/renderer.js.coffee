@@ -1,6 +1,5 @@
 app.service 'Renderer', ['$timeout', class Renderer
   constructor: (@$timeout) ->
-    console.log("Renderer:Constructor")
     @render = false
     @framerate = 60
     @objects = []

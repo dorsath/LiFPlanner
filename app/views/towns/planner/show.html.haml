@@ -10,11 +10,11 @@
     %li(ng-repeat="mode in modes")
       %button(ng-class="{active: activeMode[0] == mode[0]}" ng-click="setMode(mode[0], mode[1])") {{mode[0]}}
     %li
-      %button(ng-click="planner.center()") center
+      %button(ng-click="center()") center
     %li
-      %button(ng-click="planner.zoomIn(0.2)") Zoom in
+      %button(ng-click="zoomIn(0.2)") Zoom in
     %li
-      %button(ng-click="planner.zoomIn(-0.2)") Zoom out
+      %button(ng-click="zoomIn(-0.2)") Zoom out
 
     
   %canvas#planner(ng-class="planner.mode")

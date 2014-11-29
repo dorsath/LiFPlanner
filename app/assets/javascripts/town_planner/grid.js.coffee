@@ -1,6 +1,5 @@
 app.service 'Grid', [class Grid
   constructor: ->
-    console.log("Grid:Constructor")
 
   draw: (canvas) ->
     top_left = canvas.coords_to_tile([0,0])

@@ -1,12 +1,10 @@
 app.service 'Town', ['Building', 'HeightMap', class Town
   constructor: (@Building, @HeightMap) ->
-    console.log("Town:Constructor")
 
 
   initialize: (@townId)=>
     @buildings = @Building.query(town_id: @townId)
     @heightMaps = @HeightMap.query(town_id: @townId)
-    console.log("Town:Initialize")
 
   findOrCreateHeightMap: (x,y) =>
     if heightMap = @findHeightMap(x,y)
@@ -44,7 +42,7 @@ app.service 'Town', ['Building', 'HeightMap', class Town
 
 
   drawHeightMaps: (canvas) =>
-    canvas.context.font = " #{4.7 * canvas.zoom()}px Arial"
+    canvas.context.font = " #{3.7 * canvas.zoom()}px Arial"
     canvas.context.textBaseline = "middle"
     canvas.context.textAlign = 'center'
     for heightMap in @heightMaps
