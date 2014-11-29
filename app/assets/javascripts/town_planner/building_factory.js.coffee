@@ -35,6 +35,7 @@ app.service 'BuildingFactory', ['Selection', 'Town', 'Building', class BuildingF
       index = @Town.buildings.indexOf(@building)
       @Town.buildings.splice(index, 1)
       @formVisible = false
+      @Town.HeightMap.redraw(@Town.heightMaps)
     )
 
   mouseup: =>
