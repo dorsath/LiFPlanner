@@ -44,7 +44,10 @@ app.service 'Syncing', ['$timeout', 'Building', 'HeightMap', 'Town', class Synci
       item = $.grep(@Town.heightMaps, (e) => 
         return e.x == tile[0] && e.y == tile[1]
       )[0]
-      item.$get({town_id: @Town.townId}) if item
+      if item
+        item.$get({town_id: @Town.townId}, =>
+          item.redraw = true
+        )
     )
 
   addHeightMaps: (ids) =>
@@ -54,7 +57,6 @@ app.service 'Syncing', ['$timeout', 'Building', 'HeightMap', 'Town', class Synci
       )
       if items_found.length == 0
         item = @HeightMap.get({town_id: @Town.townId, x: tile[0], y: tile[1]}, =>
-          console.log(item)
           @Town.heightMaps.push(item)
         )
     )

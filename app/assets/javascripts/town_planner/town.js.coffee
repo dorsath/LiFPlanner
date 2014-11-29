@@ -1,6 +1,6 @@
 app.service 'Town', ['Building', 'HeightMap', class Town
   constructor: (@Building, @HeightMap) ->
-
+    @heightMapCaches = {}
 
   initialize: (@townId)=>
     @buildings = @Building.query(town_id: @townId)
@@ -37,8 +37,8 @@ app.service 'Town', ['Building', 'HeightMap', class Town
     return result
     
   draw: (canvas) =>
-    @drawBuildings(canvas)
     @drawHeightMaps(canvas)
+    @drawBuildings(canvas)
 
 
   drawHeightMaps: (canvas) =>
@@ -46,22 +46,14 @@ app.service 'Town', ['Building', 'HeightMap', class Town
     canvas.context.textBaseline = "middle"
     canvas.context.textAlign = 'center'
     for heightMap in @heightMaps
-      for height, index in heightMap.area
-        continue if height == 0
-        tile = [
-          heightMap.x + index % 10,
-          heightMap.y + Math.floor(index / 10)
-        ]
-        coords = canvas.tile_to_coords(tile)
-        coords[0] += (canvas.tileSize() / 2)
-        coords[1] += (canvas.tileSize() / 2)
-        rgb = canvas.context.getImageData(coords[0], coords[1], 1, 1).data
-        hex = '#' + ((rgb[0] << 16) | (rgb[1] << 8) | rgb[2]).toString(16)
-        if hex == "#0" or hex == "#ffffff"
-          canvas.context.fillStyle = "#d3d7cf"
-        else
-          canvas.context.fillStyle = "white"
-        canvas.context.fillText(height,coords[0], coords[1])
+      topLeft = canvas.tile_to_coords([heightMap.x, heightMap.y])
+      dimensions = [10 * canvas.tileSize(), 10 * canvas.tileSize()]
+      if @heightMapCaches[heightMap.id] && heightMap.redraw != true
+        canvas.context.putImageData(@heightMapCaches[heightMap.id], topLeft[0], topLeft[1])
+      else
+        heightMap.draw(canvas)
+        @heightMapCaches[heightMap.id] = canvas.context.getImageData(topLeft[0], topLeft[1], dimensions[0], dimensions[1])
+        heightMap.redraw = false
 
 
   drawBuildings: (canvas) =>

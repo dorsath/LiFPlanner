@@ -22,9 +22,11 @@
 
     $scope.zoomIn = (zoom) =>
       Renderer.zoom += zoom
+      HeightMap.redraw(Town.heightMaps)
 
     $scope.center = =>
       Renderer.canvas.camera = [0, 0]
+      HeightMap.redraw(Town.heightMaps)
 
     $scope.setMode = (name, mode) =>
       $scope.activeMode[1].deactivate() if $scope.activeMode

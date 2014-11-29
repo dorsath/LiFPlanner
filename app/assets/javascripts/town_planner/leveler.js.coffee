@@ -15,7 +15,9 @@ app.service 'Leveler', ['Selection', 'Town', 'HeightMap', class Leveler
       heightMap.area[areaIndex] =  parseFloat(@height)
 
     for heightMap in heightMaps
-      heightMap.$save()
+      heightMap.$save( =>
+        heightMap.redraw = true
+      )
 
     @formVisible = false
     @Selection.end()

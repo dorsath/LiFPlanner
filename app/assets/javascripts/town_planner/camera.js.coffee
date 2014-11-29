@@ -1,5 +1,5 @@
-app.service 'Camera', [class Camera
-  constructor: ->
+app.service 'Camera', ['Town', class Camera
+  constructor: (@Town) ->
     @moveCamera = false
     @lastReadPosition = false
 
@@ -17,6 +17,8 @@ app.service 'Camera', [class Camera
 
   mouseup: (event, canvas) =>
     @moveCamera = false
+    for heightMap in @Town.heightMaps
+      heightMap.redraw = true
 
   deactivate: ->
 
