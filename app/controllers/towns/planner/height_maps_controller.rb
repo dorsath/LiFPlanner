@@ -27,8 +27,8 @@ class Towns::Planner::HeightMapsController < ApplicationController
     town = Town.find(params[:town_id])
 
     time = 3.seconds
-    changed = town.height_maps.where("updated_at > ?", DateTime.now.ago(time)).map(&:id)
-    created = town.height_maps.where("created_at > ?", DateTime.now.ago(time)).map(&:id)
+    changed = town.height_maps.where("updated_at > ?", DateTime.now.ago(time)).map { |d| [d.x, d.y] }
+    created = town.height_maps.where("created_at > ?", DateTime.now.ago(time)).map { |d| [d.x, d.y] }
     result = {
       updated: (changed - created),
       created: created

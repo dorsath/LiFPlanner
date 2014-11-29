@@ -40,20 +40,21 @@ app.service 'Syncing', ['$timeout', 'Building', 'HeightMap', 'Town', class Synci
     )
 
   updateHeightMaps: (ids) =>
-    $.each(ids, (key, id) =>
+    $.each(ids, (key, tile) =>
       item = $.grep(@Town.heightMaps, (e) => 
-        return e.id == id
+        return e.x == tile[0] && e.y == tile[1]
       )[0]
-      item.$get({town_id: @Town.townId})
+      item.$get({town_id: @Town.townId}) if item
     )
 
   addHeightMaps: (ids) =>
-    $.each(ids, (key, id) =>
+    $.each(ids, (key, tile) =>
       items_found = $.grep(@Town.heightMaps, (e) => 
-        return e.id == id
+        return e.x == tile[0] && e.y == tile[1]
       )
       if items_found.length == 0
-        item = @HeightMap.get({town_id: @Town.townId, id: id}, =>
+        item = @HeightMap.get({town_id: @Town.townId, x: tile[0], y: tile[1]}, =>
+          console.log(item)
           @Town.heightMaps.push(item)
         )
     )
