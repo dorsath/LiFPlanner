@@ -34,10 +34,15 @@
       .form-group
         %label(for="factoryNote") Note:
         %textarea(ng-model="buildingFactory.building.note" id="factoryNote")
+      .form-group
+        -#%label(for="factoryColor") Color:
+        %ul
+          %li.colorPicker(ng-style="{'background-color':'#'+color}" ng-repeat="color in buildingFactory.colors" ng-class="buildingFactory.getColorStatus(color)" ng-click="buildingFactory.building.color = color")
 
-      %button.submit(ng-click="buildingFactory.save()") Save
-      %button.cancel(ng-click="buildingFactory.cancel()") Cancel
-      %button.delete(ng-click="buildingFactory.delete()" ng-show="buildingFactory.mode == 'edit'") Delete
+      .form-group
+        %button.submit(ng-click="buildingFactory.save()") Save
+        %button.cancel(ng-click="buildingFactory.cancel()") Cancel
+        %button.delete(ng-click="buildingFactory.delete()" ng-show="buildingFactory.mode == 'edit'") Delete
 
     %form#levelerForm(role="form" ng-show="leveler.formVisible")
       .form-group

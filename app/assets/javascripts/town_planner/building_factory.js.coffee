@@ -2,17 +2,33 @@ app.service 'BuildingFactory', ['Selection', 'Town', 'Building', class BuildingF
   constructor: (@Selection, @Town, @Building) ->
     @formVisible = false
     @active = false
+    @building = false
+    @colors = [
+      "fce94f", "edd400", "c4a000", "fcaf3e", "f57900", "ce5c00", "e9b96e",
+      "c17d11", "8f5902", "8ae234", "73d216", "439a06", "729fcf", "3465a4",
+      "204a87", "ad7fa8", "75507b", "5c3566", "ef2929", "cc0000", "a40000",
+      "555753"
+    ]
+
+  getColorStatus: (color) =>
+    return "active" if @building && @building.color == color
+    return ""
 
   save: =>
-    @building.$save( =>
-      @Town.buildings.push(@building)
-    )
+    if @mode == "edit"
+      @building.$update()
+    else
+      @building.$save( =>
+        @Town.buildings.push(@building)
+      )
+
     @formVisible = false
     @Selection.end()
 
   cancel: =>
     @Selection.end()
     @formVisible = false
+    @building.color = @colorBackup if @mode == "edit"
 
   delete: =>
     @building.$delete(=>
@@ -35,8 +51,10 @@ app.service 'BuildingFactory', ['Selection', 'Town', 'Building', class BuildingF
         @formVisible = true
         @mode = "edit"
       else
+        @mode = "create"
         @building = @Town.newBuilding()
         @Selection.start(event, canvas)
+      @colorBackup = @building.color
     return @active
 
   activate: =>

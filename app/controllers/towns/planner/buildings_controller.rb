@@ -59,6 +59,6 @@ class Towns::Planner::BuildingsController < ApplicationController
   private
 
   def building_param
-    params.permit(:title, :area, :note)
+    params.permit(:title, :area, :note, :color)
   end
 end

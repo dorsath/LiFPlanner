@@ -26,6 +26,27 @@
         @extend .btn;
         @extend .btn-default;
       }
+      ul {
+        margin: 0px;
+        padding: 0px;
+        width: 245px;
+
+        li.colorPicker {
+          width: 20px;
+          height: 20px;
+          margin: 1px;
+          border-radius: 5px;
+          list-style:none;
+          float:left;
+
+          &.active {
+            border: 1px solid #2e3456;
+          }
+        }
+      }       
+      .form-group {
+        clear:both;
+      }
     }
   }
 }
