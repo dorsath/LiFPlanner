@@ -47,12 +47,11 @@ app.service 'Town', ['Building', 'HeightMap', 'Cache', class Town
     for heightMap in @heightMaps
       topLeft = canvas.tile_to_coords([heightMap.x, heightMap.y])
       dimensions = [10 * canvas.tileSize(), 10 * canvas.tileSize()]
-      if @heightMapCaches[heightMap.id] && heightMap.redraw != true
-        canvas.context.drawImage(@heightMapCaches[heightMap.id], topLeft[0], topLeft[1])
-      else
-        heightMap.draw(canvas)
-        @heightMapCaches[heightMap.id] = @Cache.cacheCanvas(canvas, topLeft[0], topLeft[1], dimensions[0], dimensions[1])
+      if @heightMapCaches[heightMap.id] == undefined || heightMap.redraw == true
+        @heightMapCaches[heightMap.id] = @Cache.cacheHeightMap(heightMap, canvas, dimensions[0], dimensions[1])
         heightMap.redraw = false
+
+      canvas.context.drawImage(@heightMapCaches[heightMap.id], topLeft[0], topLeft[1])
 
 
   drawBuildings: (canvas) =>

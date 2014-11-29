@@ -22,7 +22,10 @@ app.factory "HeightMap", ['$resource', ($resource) ->
   HeightMap.emptyArea = ->
     return (0 for [1..100])
 
-  HeightMap.prototype.draw = (canvas) ->
+  HeightMap.prototype.draw = (canvas, context) ->
+    context.font = " #{3.7 * canvas.zoom()}px Arial"
+    context.textBaseline = "middle"
+    context.textAlign = 'center'
     for height, index in @area
       continue if height == 0
       tile = [
@@ -32,13 +35,18 @@ app.factory "HeightMap", ['$resource', ($resource) ->
       coords = canvas.tile_to_coords(tile)
       coords[0] += (canvas.tileSize() / 2)
       coords[1] += (canvas.tileSize() / 2)
+
+      canvasCoords = [
+        (index % 10 ) * canvas.tileSize() + canvas.tileSize() / 2,
+        (Math.floor(index / 10) ) * canvas.tileSize() + canvas.tileSize() / 2
+      ]
       rgb = canvas.context.getImageData(coords[0], coords[1], 1, 1).data
       hex = '#' + ((rgb[0] << 16) | (rgb[1] << 8) | rgb[2]).toString(16)
       if hex == "#0" or hex == "#ffffff"
-        canvas.context.fillStyle = "#d3d7cf"
+        context.fillStyle = "#d3d7cf"
       else
-        canvas.context.fillStyle = "white"
-      canvas.context.fillText(height,coords[0], coords[1])
+        context.fillStyle = "white"
+      context.fillText(height,canvasCoords[0], canvasCoords[1])
 
   HeightMap.redraw = (heightMaps) ->
     for heightMap in heightMaps
