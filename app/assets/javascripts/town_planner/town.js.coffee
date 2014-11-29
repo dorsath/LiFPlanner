@@ -37,9 +37,8 @@ app.service 'Town', ['Building', 'HeightMap', class Town
     return result
     
   draw: (canvas) =>
-    @drawHeightMaps(canvas)
     @drawBuildings(canvas)
-
+    @drawHeightMaps(canvas)
 
   drawHeightMaps: (canvas) =>
     canvas.context.font = " #{3.7 * canvas.zoom()}px Arial"
@@ -49,10 +48,18 @@ app.service 'Town', ['Building', 'HeightMap', class Town
       topLeft = canvas.tile_to_coords([heightMap.x, heightMap.y])
       dimensions = [10 * canvas.tileSize(), 10 * canvas.tileSize()]
       if @heightMapCaches[heightMap.id] && heightMap.redraw != true
-        canvas.context.putImageData(@heightMapCaches[heightMap.id], topLeft[0], topLeft[1])
+        canvas.context.drawImage(@heightMapCaches[heightMap.id], topLeft[0], topLeft[1])
       else
         heightMap.draw(canvas)
-        @heightMapCaches[heightMap.id] = canvas.context.getImageData(topLeft[0], topLeft[1], dimensions[0], dimensions[1])
+        imageData = canvas.context.getImageData(topLeft[0], topLeft[1], dimensions[0], dimensions[1])
+        cacheCanvas  = $("canvas#cache")
+        cacheContext = cacheCanvas[0].getContext('2d')
+        cacheCanvas[0].width = dimensions[0]
+        cacheCanvas[0].height = dimensions[1]
+        cacheContext.putImageData(imageData, 0, 0)
+        img = new Image()
+        img.src = cacheCanvas[0].toDataURL("image/png")
+        @heightMapCaches[heightMap.id] = img
         heightMap.redraw = false
 
 
