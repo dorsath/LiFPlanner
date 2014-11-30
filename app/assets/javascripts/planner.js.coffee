@@ -47,11 +47,11 @@
     Renderer.objects.push(Selection)
 
     Renderer.startRender()
-    #$timeout( ->
+    $timeout( ->
+      Syncing.poll()
     #  Renderer.draw()
-    #, 500)
+    , 500)
 
-    #Syncing.poll()
 
 
 

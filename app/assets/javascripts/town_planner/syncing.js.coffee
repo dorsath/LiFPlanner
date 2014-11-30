@@ -1,22 +1,31 @@
-app.service 'Syncing', ['$timeout', 'Building', 'HeightMap', 'Town', class Syncing
-  constructor: (@$timeout, @Building, @HeightMap, @Town) ->
+app.service 'Syncing', ['$http','$timeout', 'Building', 'HeightMap', 'Town', class Syncing
+  constructor: (@$http, @$timeout, @Building, @HeightMap, @Town) ->
     #@planner = $scope.planner
+  
+  getChanged: =>
+    @$http.get("/towns/#{@Town.townId}/planner/changed.json").
+      success( (data, status) =>
+        if data.building.updated.length > 0
+          @update(data.building.updated)
+        if data.building.created.length > 0
+          @add(data.building.created)
+
+        if data.height_map.updated.length > 0
+          @updateHeightMaps(data.height_map.updated)
+        if data.height_map.created.length > 0
+          @addHeightMaps(data.height_map.created)
+
+
+        
+      ).error( (data, status) ->
+        console.log("changed http get error")
+        console.log(data)
+        console.log(status)
+      )
 
   poll: =>
     @$timeout( =>
-      changed = @Building.changed(town_id: @Town.townId, =>
-        if changed.updated.length > 0
-          @update(changed.updated)
-        if changed.created.length > 0
-          @add(changed.created)
-      )
-
-      changedHeightMaps = @HeightMap.changed(town_id: @Town.townId, =>
-        if changedHeightMaps.updated.length > 0
-          @updateHeightMaps(changedHeightMaps.updated)
-        if changedHeightMaps.created.length > 0
-          @addHeightMaps(changedHeightMaps.created)
-      )
+      @getChanged()
       @poll()
     , 3000)
 
