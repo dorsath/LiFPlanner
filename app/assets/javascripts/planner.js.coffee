@@ -51,7 +51,7 @@
     #  Renderer.draw()
     #, 500)
 
-    Syncing.poll()
+    #Syncing.poll()
 
 
 
