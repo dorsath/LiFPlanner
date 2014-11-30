@@ -6,21 +6,49 @@ app.service 'Leveler', ['Selection', 'Town', 'HeightMap', class Leveler
 
   save: =>
     area = @Selection.area
-    heightMaps = []
+    heightMaps = {}
     for tile in area
       heightMapCoordinates = @HeightMap.tile_to_height_map(tile)
-      heightMap = @Town.findOrCreateHeightMap(heightMapCoordinates[0],heightMapCoordinates[1])
-      heightMaps.push(heightMap) if $.inArray(heightMap, heightMaps) == -1 #-1 means not in array
+      x = heightMapCoordinates[0]
+      y = heightMapCoordinates[1]
+      key = "#{x}:#{y}"
+      heightMaps[key] = [] unless heightMaps[key]
       areaIndex = (tile[0] - heightMapCoordinates[0]) + (tile[1] - heightMapCoordinates[1]) * 10
-      heightMap.area[areaIndex] =  parseFloat(@height)
+      heightMaps[key].push(areaIndex)
 
-    for heightMap in heightMaps
-      heightMap.$save( =>
+      #heightMap = @Town.findHeightMap(x,y)
+      #if heightMap
+      #  newHeightMap = @HeightMap.create(town_id: @townId, x: x, y: y, area: @HeightMap.emptyArea())
+      #  @heightMaps.push(newHeightMap)
+      #  return newHeightMap
+      #heightMaps.push(heightMap) if $.inArray(heightMap, heightMaps) == -1 #-1 means not in array
+      #heightMap.area[areaIndex] =  parseFloat(@height)
+
+    for key, map of heightMaps
+      k = key.split(":")
+      x = parseInt(k[0])
+      y = parseInt(k[1])
+      heightMap = @Town.findHeightMap(x,y)
+      if heightMap
+        for index in map
+          heightMap.area[index] = @height
+
+        heightMap.$save()
         heightMap.redraw = true
-      )
+      else
+        area = @HeightMap.newArea(parseFloat(@height), map)
+        @HeightMap.create({town_id: @Town.townId, x: x, y: y, area: area}, (record) =>
+          record.redraw = true
+          @Town.heightMaps.push(record)
+        )
+
+      #heightMap.$save( =>
+      #  heightMap.redraw = true
+      #)
 
     @formVisible = false
     @Selection.end()
+
 
 
   cancel: =>

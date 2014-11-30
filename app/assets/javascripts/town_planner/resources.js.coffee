@@ -19,8 +19,12 @@ app.factory "HeightMap", ['$resource', ($resource) ->
       Math.floor(coordinate[1] / 10) * 10
     ]
 
-  HeightMap.emptyArea = ->
-    return (0 for [1..100])
+  HeightMap.newArea = (height, indices) ->
+    area = (0 for [1..100])
+    return area unless height && indices
+    for index in indices
+      area[index] = height
+    return area
 
   HeightMap.prototype.draw = (canvas, context) ->
     context.font = " #{3.7 * canvas.zoom()}px Arial"

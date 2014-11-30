@@ -14,7 +14,9 @@ class Towns::Planner::HeightMapsController < ApplicationController
 
   def create
     town = current_user.towns.find(params[:town_id])
-    height_map = town.height_maps.create(params.permit(:town_id, :x, :y, :area))
+    permitted = params.require(:height_map).permit(:town_id, :x, :y)
+    permitted[:area] = params[:height_map][:area]
+    height_map = town.height_maps.create(permitted)
     render json: height_map.to_json
   end
 
